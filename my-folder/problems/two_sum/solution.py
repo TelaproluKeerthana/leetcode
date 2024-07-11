@@ -1,15 +1,8 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-       l = len(nums)
-       for i in range(l):
-           pink = target - nums[i]
-           if pink in nums:
-               b=nums.index(pink)
-               if i!=b:
-                   return [i,b]
-
-
-
-            
-      
-
+        hashmap={}
+        for i,n in enumerate(nums):
+            diff=target-n
+            if(diff in hashmap):
+                return[hashmap[diff],i]
+            hashmap[n]=i
