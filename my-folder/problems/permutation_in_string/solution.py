@@ -1,14 +1,11 @@
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-        n1, n2=len(s1), len(s2)
-        if n2<n1: return False
-        freq1, freq2 = Counter(s1), Counter(s2[0:n1])
-        if freq1==freq2: return True
-        l,  r = 1, n1
-        while r<n2:
-            freq2[s2[l-1]]-=1
-            freq2[s2[r]]+=1
-            if freq1==freq2: return True
-            r+=1
-            l+=1
+        window = len(s1)
+        s1_c = Counter(s1)
+        
+        for i in range(len(s2)-window+1):
+            s2_c = Counter(s2[i:i+window])
+            if s2_c == s1_c:
+                return True
+            
         return False
