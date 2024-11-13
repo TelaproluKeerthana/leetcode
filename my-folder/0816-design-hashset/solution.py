@@ -1,28 +1,37 @@
+class Node:
+    def __init__(self,key):
+        self.key=key
+        self.next=None
+
+
 class MyHashSet:
 
     def __init__(self):
-
-        self.hm=[] 
+        self.hm=[Node(0)] *10000
+    #creation of dummy node
 
     def add(self, key: int) -> None:
-        total=len(self.hm)
-        
-        if total==0:
-            self.hm.append(key)
-        if not self.contains(key):
-            self.hm.append(key)
+        curr=self.hm[key%len(self.hm)]
+        while(curr.next):
+            if curr.next.key==key:
+                return
+            curr=curr.next
+        curr.next=Node(key)
 
     def remove(self, key: int) -> None:
-            i=0
-            while i<len(self.hm):
-                if(self.hm[i]==key):
-                    self.hm.remove(key)
-                i+=1
-
+            curr=self.hm[key%len(self.hm)]
+            while(curr.next):
+                if curr.next.key==key:
+                    curr.next=curr.next.next
+                    return
+                curr=curr.next
+    
     def contains(self, key: int) -> bool:
-        for i in range(len(self.hm)):
-            if(self.hm[i]==key):
+        curr=self.hm[key%len(self.hm)]
+        while(curr.next):
+            if curr.next.key==key:
                 return True
+            curr=curr.next
         return False
         
 
