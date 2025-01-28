@@ -1,14 +1,20 @@
-class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
+class Solution(object):
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
         res=[]
-        subset=[]
-        def subsubs(i):
-            if i>=len(nums):
-                res.append(subset.copy())
-                return 
-            subset.append(nums[i])
-            subsubs(i+1)
-            subset.pop()
-            subsubs(i+1)
-        subsubs(0)
-        return res      
+        def helper(i,s,res):
+            if(i>=len(nums)):
+                res.append(s[:])
+                return
+            s.append(nums[i])
+            helper(i+1,s,res)
+            s.pop()
+            helper(i+1,s,res)
+        helper(0,[],res)
+        return res
+        
+
+        
