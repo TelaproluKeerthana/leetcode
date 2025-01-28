@@ -19,14 +19,17 @@ class Solution:
         #     print(combs)
         
         res=[]
-        def dfs(i,path):
+        path=[]
+        def dfs(i):
             if(len(digits)==len(path)):
                 res.append("".join(path))
                 return 
             for digi in keyboard[digits[i]]:
-                dfs(i+1,path+digi)
+                path.append(digi)
+                dfs(i+1)
+                path.pop()
         if digits:
-            dfs(0,'')
+            dfs(0)
         return res
 
 
