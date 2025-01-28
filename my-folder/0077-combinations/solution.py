@@ -7,10 +7,13 @@ class Solution:
                 return
             if i>n:
                 return
-            combs.append(i)
-            combo(i+1,combs)
-            combs.pop()
-            combo(i+1,combs)
+            # combs.append(i)
+            # combo(i+1,combs)
+            # combs.pop()
+            for j in range(i,n+1):
+                combs.append(j)
+                combo(j+1,combs)
+                combs.pop()
         combo(1,[])
         return res
 
