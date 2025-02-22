@@ -3,18 +3,23 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-        # t=n
-        
-        # if len(nums1)==1 and len(nums2)==1:
-        #     nums1[0]=max(nums1[0],nums2[0])
+        r1=m-1
+        r2=n-1
+        w=(m+n)-1
+        while r1>=0 and r2>=0:
+            if(nums1[r1]>nums2[r2]):
+                nums1[w]=nums1[r1]
+                r1-=1
+            else:
+                nums1[w]=nums2[r2]
+                r2-=1
+            w-=1
+        while r2>=0:
+            nums1[w]=nums2[r2]
+            w-=1
+            r2-=1
+
             
-        # for i in range(n):
-        #     nums1[i]=nums1[i]
-        #     nums1[i+1]=nums1[t]
-        #     t+=1
-        # print(modified_nums1)
-        for i in range(len(nums2)):
-            nums1[i+m]=nums2[i]
-        nums1.sort()
+
 
 
