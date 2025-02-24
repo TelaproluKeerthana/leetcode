@@ -1,12 +1,7 @@
 class Solution:
     def minimumOperations(self, nums: List[int]) -> int:
-        c=0
-        while any(n != 0 for n in nums):
-            minnum=min((num for num in nums if num!=0),default=None)
-            for i in range(len(nums)):
-                if(nums[i]!=0):
-                    nums[i]=nums[i]-minnum
-
-            c+=1
-        return c
         
+        counter=Counter(nums)
+        res=[val for key,val in counter.items() if key!=0]
+        # c=1+sum(n for n,count in counter.items() if count!=0) 
+        return len(res)
