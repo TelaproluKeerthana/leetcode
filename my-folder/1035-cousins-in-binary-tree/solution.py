@@ -5,21 +5,32 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
-        tracker={}
-        def dfs(node,parent,depth):
-            if not node:
-                return 
-            # depth=1
-            # if node.val==x or node.val==y:
-            #     return depth
-            dfs(node.left,node,depth+1)
-            dfs(node.right,node,depth+1)
-            if node.val in (x,y):
-                tracker[node.val]=(parent,depth)
-        dfs(root,None,0)
-        cousins=tracker.get(x) and tracker.get(y) and tracker[x][1]==tracker[y][1] and tracker[x][0]!=tracker[y][0]
-        return cousins
+    def __init__(self):
+        self.x_parent=None
+        self.y_parent=None
+        self.x_depth=None
+        self.y_depth=None
+    def dfs(self,node,x,y,depth,parent):
+        if node is None:
+            return False
+        if node.val==x:
+            self.x_parent=parent
+            self.x_depth=depth
+        if node.val==y:
+            self.y_parent=parent
+            self.y_depth=depth
+        self.dfs(node.left,x,y,depth+1,node)
+        self.dfs(node.right,x,y,depth+1,node)
 
+    def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
+        if not root:
+            return None
+        if root.val==x or root.val==y:
+            return False
+        
+        self.dfs(root,x,y,0,0)
+        if self.x_parent==self.y_parent or self.x_depth!=self.y_depth:
+            return False
+        return True
 
         
