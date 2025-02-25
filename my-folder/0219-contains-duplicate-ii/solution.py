@@ -3,23 +3,17 @@ class Solution:
         # return len(set(nums))==len(nums)
         freq_counter={}
         for i in range(len(nums)):
-            if nums[i] in freq_counter and (i-freq_counter[nums[i]]<=k):
-                return True
-            freq_counter[nums[i]]=i
+            if nums[i] not in freq_counter:
+                freq_counter[nums[i]]=[i]
+            else:
+                freq_counter[nums[i]].append(i)
+        for indices in freq_counter.values():
+            if len(indices)>1:
+                for i in range(1,len(indices)):
+                    if((indices[i]-indices[i-1])<=k):
+                        return True
         return False
 
-            # else:
-            #     freq_counter[nums[i]].append(i)
-        # res_arr=[]
-        # for key,values in freq_counter.items():
-        #     if len(values)>1:
-        #         res_arr=values 
-        # print(res_arr)
-        # for i in range(1,len(res_arr)):
-        #     if(abs(res_arr[i]-res_arr[i-1])<=k):
-        #         continue
-        #     return False
-        # return True
 
 
 
