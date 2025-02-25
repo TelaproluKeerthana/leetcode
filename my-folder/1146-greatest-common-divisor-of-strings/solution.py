@@ -1,20 +1,16 @@
 class Solution:
     def gcdOfStrings(self, str1: str, str2: str) -> str:
-        len1,len2=len(str1),len(str2)
-        
-        def valid(k):
-            if len1%k or len2%k:
-                return False
-            n1,n2=len1//k,len2//k
-            base=str1[:k]
-            return str1==n1*base and str2==n2*base
-
-        for i in range(min(len1,len2),0,-1):
-            if valid(i):
-                return str1[:i]
-        return ""
-
-#TC - O(min(m,n)*(m+n))  SC - O(min(m,n))
+        # if len(str1)==len(str2)==1:
+        #     return str1[0] if str1[0]==str2[0] else ""
+        # pre=""
+        # for i in range(len(str2)):
+        #     if str1[i]==str2[i]:
+        #         pre+=str1[i]
+        if str1+str2 != str2+str1:
+            return ""
+        gcd_length=gcd(len(str1),len(str2))
+        return str1[:gcd_length]
+                
 
 
         
