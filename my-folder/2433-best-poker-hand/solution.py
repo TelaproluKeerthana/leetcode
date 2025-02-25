@@ -1,10 +1,9 @@
 class Solution:
     def bestHand(self, ranks: List[int], suits: List[str]) -> str:
-        suit_counter=Counter(suits)
-        rank_counter=Counter(ranks)
-        if(max(suit_counter.values())==5):
+        if (len(set(suits))==1):
             return "Flush"
-        elif(max(rank_counter.values())>=3):
+        rank_counter=Counter(ranks)
+        if(max(rank_counter.values())>=3):
             return "Three of a Kind"
         elif(max(rank_counter.values())==2):
             return "Pair"
