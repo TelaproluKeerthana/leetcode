@@ -9,6 +9,17 @@ class Solution:
                     "8": "tuv",
                     "9": "wxyz"
                     }
+        if not digits:
+            return []
+        res = ['']
+        for i in digits:
+            if i in keyboard:
+                new_res = []
+                for comb in res:
+                    for key in keyboard[i]:
+                        new_res.append(comb + key)
+                res = new_res
+        return res
         # for i in range(0,len(digits),2):
         #     list1=keyboard[digits[i]]
         #     list2=keyboard[digits[i+1]] if i+1<len(digits) else ''
@@ -18,19 +29,19 @@ class Solution:
         #             combs.append(i+j)
         #     print(combs)
         
-        res=[]
-        path=[]
-        def dfs(i):
-            if(len(digits)==len(path)):
-                res.append("".join(path))
-                return 
-            for digi in keyboard[digits[i]]:
-                path.append(digi)
-                dfs(i+1)
-                path.pop()
-        if digits:
-            dfs(0)
-        return res
+        # res= []
+        # path= []
+        # def dfs(i):
+        #     if(len(digits)==len(path)):
+        #         res.append("".join(path))
+        #         return 
+        #     for digi in keyboard[digits[i]]:
+        #         path.append(digi)
+        #         dfs(i+1)
+        #         path.pop()
+        # if digits:
+        #     dfs(0)
+        # return res
 
 
             
