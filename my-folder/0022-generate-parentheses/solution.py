@@ -1,20 +1,23 @@
-class Solution(object):
-    def generateParenthesis(self, n):
-        stack=[] #stack to add the paranthesis and update res
-        res=[] #to store all possible solutions
-        def backtrack(openN,closeN):
-            if openN==closeN==n:
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        res = []
+        def dfs(op,cp, stack):
+            if ( op == cp == n):
                 res.append("".join(stack))
-                return 
-            if openN<n:
-                stack.append("(")
-                backtrack(openN+1,closeN)
+                return
+            if ( op < n ):
+                stack.append('(')
+                dfs( op + 1, cp, stack)
                 stack.pop()
-            if closeN<openN:
-                stack.append(")")
-                backtrack(openN,closeN+1)
-                print(stack)
+            if ( cp < op):
+                stack.append(')')
+                dfs(op, cp + 1, stack)
                 stack.pop()
-        backtrack(0,0)
+        dfs(0,0, [])
         return res
+
+            
+
+
+
         
