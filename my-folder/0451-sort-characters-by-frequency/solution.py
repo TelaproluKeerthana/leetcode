@@ -1,27 +1,22 @@
 class Solution:
     def frequencySort(self, s: str) -> str:
-        freq_s = defaultdict(list)
+        freq_s = defaultdict(int)
         for char in s:
-            if char in freq_s:
-                freq_s[char] += 1
-            else:
-                freq_s[char] = 1
+            freq_s[char] += 1
 
         sorted_decr_freq = []
 
         for key,val in freq_s.items():
             sorted_decr_freq.append((-val,key))
-
         
         heapq.heapify(sorted_decr_freq)
         
-        res = ''
-        while len(sorted_decr_freq) > 0:
+        res = []
+        while sorted_decr_freq:
             freq, curr = heapq.heappop(sorted_decr_freq)
-            for _ in range(-1 * freq):
-                res += curr
+            res.append(curr * (-1 * freq))
 
-        return res
+        return "".join(res)
 
         
 
