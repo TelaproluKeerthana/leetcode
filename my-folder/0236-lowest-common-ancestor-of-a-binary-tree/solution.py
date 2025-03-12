@@ -9,6 +9,8 @@ class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         self.ans = None
         def dfs(node):
+            if self.ans:
+                return False
             if not node:
                 return False
                 #when we dont have a node to traverse return false
@@ -17,7 +19,7 @@ class Solution:
 
             mid = node == p or node == q
 
-            if mid + left + right >= 2:
+            if mid + left + right == 2:
                 self.ans = node
             
             return mid or left or right
