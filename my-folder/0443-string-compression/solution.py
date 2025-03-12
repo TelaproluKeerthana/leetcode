@@ -1,30 +1,27 @@
 class Solution:
     def compress(self, chars: List[str]) -> int:
-        i = 0
-        index = 0 #index is to keep track of until which position we compressed the existing string
-        # this is a inplace sorting problem with string compression
-        while i < len(chars):
-            j = i
-            while (j < len(chars) and chars[i] == chars[j]):
-                j += 1
+        #do inplace sorting and return the length
+        index = 0
+        L = 0
+        
+        while L < len(chars):
+            R = L
+            while R < len(chars) and chars[R] == chars[L]:
+                R += 1
             
-            chars[index] = chars[i]
+            chars[index] = chars[L]
             index += 1
-            if (j - i > 1):
-                count = str(j - i)
+            
+            if R - L > 1:
+                count = str(R - L)
+            
                 for c in range(len(count)):
                     chars[index] = count[c]
                     index += 1
-            i = j
-
-        return index
-            # if(s[i-1] != s[i]):
-            #     res_string.append(s[i])
-            #     res_string.append(i)
-            # elif s[i - 1] == s[i]:
-            #     i +=1
-
-
+            
+            L = R
         
+        return index
+
 
         
