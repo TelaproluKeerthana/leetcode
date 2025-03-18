@@ -1,20 +1,16 @@
-class Solution(object):
-    def subsets(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        res=[]
-        def helper(i,s,res):
-            if(i>=len(nums)):
-                res.append(s[:])
-                return
-            s.append(nums[i])
-            helper(i+1,s,res)
-            s.pop()
-            helper(i+1,s,res)
-        helper(0,[],res)
-        return res
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        def dfs(i, subs, res):
+            if i == len(nums):
+                res.append(subs.copy())
+                return 
+            subs.append(nums[i])
+            dfs(i + 1, subs, res)
+            subs.pop()
+            dfs(i + 1, subs, res)
         
+        dfs(0, [], res)
+        return res
 
         
