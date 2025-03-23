@@ -1,17 +1,23 @@
 class Solution:
 
     def getRow(self, rowIndex: int) -> List[int]:
-        # base case
-        arr = [[1]]        
-        for row in range(1, rowIndex + 1):
-            prev = arr[-1]
-            new_col = [1]
-            for col in range(len(prev) - 1):
-                new_col.append(prev[col] + prev[col + 1])
-            new_col.append(1)
-            arr.append(new_col)
+        arr = self.generateRows(rowIndex)
+        return arr
+    
+    def generateRows(self, rowIndex):
+        prev = [1]
+        for r in range(rowIndex):
+            new_row = [1]
+            for c in range(len(prev) - 1):
+                new_row.append(prev[c] + prev[c + 1])
+            new_row.append(1)
+            prev = new_row
+            
+        return prev
 
-        return arr[-1]
+
+
+
                 
 
             
