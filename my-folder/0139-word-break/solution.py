@@ -1,31 +1,22 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        #create a dp array 
-        # dp=[False]*(len(s)+1)
-        # dp[0]=True
-        words = set(wordDict)
-        # for start in range(1, len(s) + 1):
-        #     for end in range(0, start):
-        #         if (dp[end] and s[end : start] in words):
-        #             dp[start] = True
-        #             break
-        # return dp[len(s)]
+        dp = [False] * (len(s) + 1)
+        dp[len(s)] = True
+        for i in range(len(s) - 1, -1, -1):
+            for word in wordDict:
+                if (s[i : i + len(word)] == word and (i + len(word) <= len(s))):
+                    # recurrence relation
+                    dp[i] = dp[i + len(word)]
+                if dp[i]:
+                    break
 
-        queue = deque([0])
-        seen = set()
-        while queue:
-            start = queue.popleft()
-            if start == len(s):
-                return True
-                # queue is to keep track of the position until which we can break words 
-            
-            for end in range(1, len(s) + 1):
-                if end in seen:
-                    continue
+        return dp[0]
+                
 
-                if s[start : end] in words:
-                    queue.append(end)
-                    seen.add(end) #we add elements to seen so we dont have to compute we we see it again
-        return False #when we couldn't reach the last index and we don't have any elements in queue, then we break out of loop
+                
 
-    
+
+# "a a a a a a a"
+# wordDict =
+# ["aaaa","aaa"]
+# true
