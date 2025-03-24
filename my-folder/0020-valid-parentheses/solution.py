@@ -1,17 +1,17 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        pairs={')':'(',']':'[','}':'{'}
-        stack=[]
-        for i in s:
-            if i in pairs:
-                if stack and stack[-1]==pairs[i]:
-                    stack.pop()
-                else:
-                    return False
+        if len(s) == 1:
+            return False
+        hm = { "}" : "{", "]" : "[", ")" : "("}
+        stack = [s[0]]
+        for char in s[1: ]:
+            if char in '}])' and  stack and stack[-1] == hm[char]:
+                stack.pop()
+            elif char in '}])' and stack and stack[-1] != hm[char]:
+                return False
             else:
-                stack.append(i)
-        return not stack
+                stack.append(char)
 
-# ()[]{}
-#  i
-# stack=(
+        return True if not stack else False
+
+        
