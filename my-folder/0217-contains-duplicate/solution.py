@@ -1,7 +1,10 @@
 class Solution(object):
     def containsDuplicate(self, nums):
-        set_nums=set(nums)
-        return  len(set_nums)!=len(nums)
+        nums.sort()
+        for i in range(1, len(nums)):
+            if (nums[i - 1] == nums[i]):
+                return True
+        return False
         
 
         
