@@ -8,8 +8,11 @@ class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         if not preorder and not inorder:
             return None
+        inorder_map = defaultdict(int)
+        for i in range(len(inorder)):
+            inorder_map[inorder[i]] = i
         newList = TreeNode(preorder[0], None, None)
-        mid = inorder.index(preorder[0])
+        mid = inorder_map[preorder[0]]
         newList.left = self.buildTree(preorder[1 : mid + 1], inorder[ : mid])
         newList.right = self.buildTree(preorder[mid + 1 : ], inorder[mid + 1: ])
 
