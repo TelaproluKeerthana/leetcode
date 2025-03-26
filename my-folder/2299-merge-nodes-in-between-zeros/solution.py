@@ -5,23 +5,20 @@
 #         self.next = next
 class Solution:
     def mergeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        temp = head
-        new_ll = ListNode(0)
-        new_head = new_ll
-        while temp:
-            if temp.val == 0:
-                temp = temp.next
-                curr = temp
-                count = 0
-                while curr and curr.val != 0:
-                    count += curr.val
-                    curr = curr.next
-                if count != 0:
-                    new_ll.next = ListNode(count)
-                    new_ll = new_ll.next
-                temp = curr
+        temp = head.next
+        next_sum = temp
         
-        return new_head.next
-
+        while next_sum:
+            count = 0
+            while next_sum.val != 0:
+                count += next_sum.val
+                next_sum = next_sum.next
+            
+            temp.val = count # modify the existing val with count
+            next_sum = next_sum.next # move the next pointer to continue further computation
+            temp.next = next_sum
+            temp = temp.next
+        
+        return head.next
 
         
