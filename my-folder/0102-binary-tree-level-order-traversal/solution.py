@@ -9,18 +9,17 @@ class Solution:
         levels = []
         if not root:
             return levels
-        def helper(node, level):
-            if len(levels) == level:
-                levels.append([])
-            levels[level].append(node.val)
-
-            if node.left:
-                helper(node.left, level + 1)
-            if node.right:
-                helper(node.right, level + 1)
-        
-        helper(root, 0)
+        self.dfs(root,levels, 0)
         return levels
-
+    
+    def dfs(self, node, levels, level):
+        if len(levels) == level:
+            levels.append([])
+        levels[level].append(node.val)
+        if node.left:
+            self.dfs(node.left, levels, level + 1)
+        if node.right:
+            self.dfs(node.right, levels, level + 1)
+    
 
         
