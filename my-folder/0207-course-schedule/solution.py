@@ -1,28 +1,27 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        adj = defaultdict(list)
+        indegree = [0] * numCourses
+        adj_list = defaultdict(list)
         for crs, pre in prerequisites:
-            adj[crs].append(pre)
-        # now you get which course should be completed in order to proceed with the course
-        visit = set()
-        def dfs(crs):
-            if adj[crs] == []:
-                return True
-            if crs in visit:
-                return False
-                #that means you encountered a cycle and you can't make it to complete the course.
-            visit.add(crs)
-            for nei in adj[crs]:
-                if not dfs(nei):
-                    return False
-            visit.remove(crs)
-            adj[crs] = []
-            # for faster return when we are looking up for that node
-            return True
+            adj_list[pre].append(crs)
+            indegree[crs] += 1
         
-        for c in range(numCourses):
-            if not dfs(c):
-                return False
-        return True
-            
+        queue = deque([crs for crs in range(numCourses) if indegree[crs] == 0])
+        
+        visited = 0
+        while queue:
+            curr_course = queue.popleft()
+            visited += 1
+            for nei in adj_list[curr_course]:
+                indegree[nei] -= 1
+                if(indegree[nei] == 0):
+                    queue.append(nei)
+        
+        if visited == numCourses:
+            return True
+        return False
+
+
+
+
 
