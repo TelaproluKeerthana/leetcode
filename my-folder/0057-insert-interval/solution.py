@@ -1,31 +1,30 @@
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        if not intervals:
-            return [newInterval]
-        
+        curr_idx = 0
+        total_intervals = len(intervals)
         output = []
-        n = len(intervals)
-        i = 0
-
-        while i < n and intervals[i][1] < newInterval[0]:
-            output.append(intervals[i])
-            i += 1
         
-        while i < n and newInterval[1] >= intervals[i][0]:
-            newInterval[0] = min(newInterval[0], intervals[i][0])
-            newInterval[1] = max(newInterval[1], intervals[i][1])
-            i += 1
+        #when the start of the new interval is greater than the curr index
+        while(curr_idx < total_intervals and intervals[curr_idx][1] < newInterval[0]):
+            output.append(intervals[curr_idx])
+            curr_idx += 1
+        
+        #when the start of the curr idx is less than the end of the new interval's end that means a merging index came up
+        while(curr_idx < total_intervals and intervals[curr_idx][0] <= newInterval[1]):
+            newInterval[0] = min(newInterval[0], intervals[curr_idx][0])
+            newInterval[1] = max(intervals[curr_idx][1], newInterval[1])
+            curr_idx += 1
         output.append(newInterval)
-        while i < n:
-            output.append(intervals[i])
-            i += 1
-        
+       
+       # append the rest of the indexes after the merging
+        while curr_idx < total_intervals:
+            output.append(intervals[curr_idx])
+            curr_idx += 1
+            
         return output
 
-#[[1,3],[6,9]]      
 
-            
-            
+        
 
 
         
