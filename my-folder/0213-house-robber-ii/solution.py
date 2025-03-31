@@ -10,19 +10,21 @@ class Solution:
         return max(self.robb(nums[1:]) , self.robb(nums[:-1]))
 
     def robb(self, arr):
-        if not arr:
-            return 0
-
+        if  not arr:
+            return 
+        
         if len(arr) == 1:
             return arr[0]
         
-        dp = [0] * len(arr)
-        dp[0] = arr[0]
-        dp[1] = max(arr[0], arr[1])
-        for num in range(2, len(arr)):
-            dp[num] = max(arr[num] + dp[num - 2], dp[num - 1])
+        prev = arr[0]
+        curr = max(arr[0], arr[1])
+        for i in arr[2:]:
+            temp = curr
+            curr = max(i + prev, curr)
+            prev = temp
         
-        return dp[-1]
+        return curr
+        
 
 
 
