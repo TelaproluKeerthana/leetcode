@@ -1,14 +1,10 @@
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        freqCounter=[1]*len(nums)
-        for i in range(1,len(nums)):
-            for j in range(i): 
-                if nums[j] < nums[i]:
-                    freqCounter[i] = max(1+freqCounter[j], freqCounter[i]) 
-        print(freqCounter)
-        return max(freqCounter)
-                
-
-                
-
+        dp = [1] * len(nums)
+        for i in range(len(nums) - 1, -1, -1):
+            for j in range(i, len(nums)):
+                if nums[i] < nums[j]:
+                    dp[i] = max(dp[i], 1 + dp[j]) 
+            
+        return max(dp)
         
