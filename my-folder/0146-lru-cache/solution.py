@@ -1,38 +1,27 @@
+from collections import OrderedDict
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.pairs = {}
+        self.pairs = OrderedDict()
         self.capacity = capacity
-        self.lru_keys = []
+        # this is to keep track of the ordering of the keys
 
     def get(self, key: int) -> int:
         if key not in self.pairs:
             return -1
         else:
-            self.lru_keys.remove(key)
-            self.lru_keys.append(key)
+            # when there is the key then we remove the key from the ordering and keep it in the end of the order to make it frequent
+            self.pairs.move_to_end(key)
             return self.pairs[key]
         
     def put(self, key: int, value: int) -> None:
-        # if len(self.queue) == self.capacity:
-        #     k, v = self.queue.popleft()
-        #     del self.pairs[k]
         if key in self.pairs:
-            self.lru_keys.remove(key)
-            self.lru_keys.append(key)
-            self.pairs[key] = value
-            return None
+            self.pairs.move_to_end(key)
         
-        elif len(self.lru_keys) == self.capacity:
-            k = self.lru_keys.pop(0)
-            del self.pairs[k]
-            self.pairs[key] = value
+        self.pairs[key] = value
 
-        else:
-            self.pairs[key] = value
-        
-        self.lru_keys.append(key)
-        return None
+        if len(self.pairs) > self.capacity:
+            self.pairs.popitem(last = False)
 
 
 # Your LRUCache object will be instantiated and called as such:
