@@ -14,12 +14,13 @@ class Solution:
         def dfs(node):
             if node in nodes:
                 return nodes[node]
-    
-            neighnode=Node(node.val)
-            nodes[node]=neighnode
-            for i in node.neighbors:
-                neighnode.neighbors.append(dfs(i))
-            return neighnode
+
+            clone_node = Node(node.val)
+            nodes[node] = clone_node
+            for nei in node.neighbors:
+                clone_node.neighbors.append(dfs(nei))
+            
+            return clone_node
 
         return dfs(node) if node else None
 
