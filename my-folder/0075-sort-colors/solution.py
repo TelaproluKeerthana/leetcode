@@ -3,18 +3,22 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        low, mid, high = 0, 0, len(nums) - 1
+        # dutch national flag algorithm 
+        freq_counter = [0] * 3
+        for i in range(len(nums)):
+            freq_counter[nums[i]] += 1
+        
+        idx = 0
+        for curr in range(len(freq_counter)):
+            while(freq_counter[curr] > 0 and idx < len(nums)):
+                nums[idx] = curr
+                idx += 1
+                freq_counter[curr] -= 1
 
-        while mid <= high:
-            if nums[mid] == 0:
-                nums[low], nums[mid] = nums[mid], nums[low]
-                low += 1
-                mid += 1
-            elif nums[mid] == 1:
-                mid += 1
-            else:
-                nums[mid], nums[high] = nums[high], nums[mid]
-                high -= 1
+        print(nums)
+            
+        
+
 
             
         
