@@ -1,20 +1,18 @@
 class Solution:
     def longestArithSeqLength(self, nums: List[int]) -> int:
-        n = len(nums)
-        # creating list of hashmaps to store all elements and the subsequence length
-        dp = [{} for _ in range(n)]
-        res = 2
-        for i in range(n):
-            for j in range(i + 1, n):
-                diff = nums[j] - nums[i]
-                if diff in dp[i]:
-                    dp[j][diff] = dp[i][diff] + 1
-                else:
-                    dp[j][diff] = 2
-                
-                res = max(res, dp[j][diff])
-
+        num_range = max(nums) - min(nums)
+        res = max(Counter(nums).values())
+        for abs_delta in range(1, num_range + 1):
+            if num_range // abs_delta + 1 <= res:
+                break
+            for delta in (-abs_delta, abs_delta):
+                lookup = {}
+                for num in nums:
+                    prev = num - delta
+                    lookup[num] = lookup.get(prev, 0) + 1
+                    res = max(res, lookup[num])
         return res
+
                 
 
 
