@@ -1,17 +1,17 @@
 class Solution:
     def longestArithSeqLength(self, nums: List[int]) -> int:
-        num_range = max(nums) - min(nums)
-        res = max(Counter(nums).values())
-        for abs_delta in range(1, num_range + 1):
-            if num_range // abs_delta + 1 <= res:
-                break
-            for delta in (-abs_delta, abs_delta):
-                lookup = {}
-                for num in nums:
-                    prev = num - delta
-                    lookup[num] = lookup.get(prev, 0) + 1
-                    res = max(res, lookup[num])
-        return res
+        n = len(nums)
+        dp = [{} for _ in range(n)]
+        max_len = 0
+        for i in range(n):
+            for j in range(i):
+                diff = nums[i] - nums[j]
+                dp[i][diff] = dp[j].get(diff,1) + 1
+                max_len = max(dp[i][diff], max_len)
+
+        return max_len
+
+
 
                 
 
