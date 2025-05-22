@@ -1,17 +1,27 @@
 class NumMatrix {
-    private int[][] matrix;
+    private int[][] prefixMatrix;
     public NumMatrix(int[][] matrix) {
-        this.matrix = matrix;
+        int m = matrix.length;
+        int n = matrix[0].length;
+        prefixMatrix = new int[m + 1][n + 1];
+        for(int i = 1; i <= m; i++){
+            for(int j = 1; j <= n; j++){
+                prefixMatrix[i][j] = matrix[i - 1][j - 1] 
+                                    + prefixMatrix[i - 1][j]
+                                    + prefixMatrix[i][j - 1]
+                                    - prefixMatrix[i - 1][j - 1];
+            }
+        }
     }
     
     public int sumRegion(int row1, int col1, int row2, int col2) {
-        int sum = 0;
-        for(int i = Math.min(row1, row2); i <= Math.max(row1, row2); i++){
-            for(int j = Math.min(col1, col2); j <= Math.max(col1, col2); j++){
-                sum += matrix[i][j];
-            }
-        }
-            return sum;
+        //shifting for it to be 1-indexed
+        int r1 = row1 + 1, c1 = col1 + 1, r2 = row2 + 1, c2 = col2 + 1;
+
+        return prefixMatrix[r2][c2]
+         - prefixMatrix[r1 - 1][c2] 
+         - prefixMatrix[r2][c1 - 1]
+          + prefixMatrix[r1 - 1][ c1 - 1];
     }
 }
 
