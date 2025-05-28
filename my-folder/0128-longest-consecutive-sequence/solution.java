@@ -30,3 +30,6 @@ class Solution {
   return max;
 }
 }
+
+// [100,4,200,1,3,2]
+
