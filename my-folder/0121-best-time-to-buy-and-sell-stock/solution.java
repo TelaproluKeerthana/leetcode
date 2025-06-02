@@ -1,6 +1,8 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        int minBuy = Arrays.stream(prices).max().getAsInt();
+        if (prices == null || prices.length == 0) return 0;
+
+        int minBuy = Integer.MAX_VALUE;
         int profit = 0;
         for(int i = 0; i < prices.length; i++){
             if(minBuy > prices[i]){
