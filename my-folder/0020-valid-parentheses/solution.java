@@ -1,23 +1,27 @@
 class Solution {
     public boolean isValid(String s) {
-        if(s.length() == 1){
-            return false;
-        }
-        Map<Character, Character> pairs = Map.of(')', '(', ']', '[', '}', '{');
-        List<Character>  validateParams = new ArrayList<>();
-        for(int idx = 0; idx < s.length(); idx++){
-            char curr = s.charAt(idx);
-            if(pairs.containsKey(curr)){
-                if(validateParams.isEmpty() || validateParams.get(validateParams.size() - 1) != pairs.get(curr)){
+        if (s.length() == 1) return false;
+
+        Map<Character, Character> pairs = Map.of(
+            ')', '(', 
+            ']', '[', 
+            '}', '{'
+        );
+
+        Deque<Character> stack = new ArrayDeque<>();
+
+        for (char ch : s.toCharArray()) {
+            if (pairs.containsKey(ch)) {
+                if (stack.isEmpty() || stack.peek() != pairs.get(ch)) {
                     return false;
                 }
-                validateParams.remove(validateParams.size() - 1);
-            }
-            else{
-                validateParams.add(curr);
+                stack.pop();
+            } else {
+                stack.push(ch);
             }
         }
 
-        return validateParams.isEmpty();
+        return stack.isEmpty();
     }
 }
+
