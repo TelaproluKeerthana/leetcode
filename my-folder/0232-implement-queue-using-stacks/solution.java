@@ -1,57 +1,41 @@
 class MyQueue {
 
-    List<Integer> stack1; 
-    List<Integer> stack2;
-    int front;
+    private Stack<Integer> stack1; 
+    private Stack<Integer> stack2;
 
     public MyQueue() {
-        stack1 = new ArrayList<>();
-        stack2 = new ArrayList<>(); 
-        front = 0;
+        stack1 = new Stack<>();
+        stack2 = new Stack<>(); 
     }
     
     public void push(int x) {
-        stack1.add(x);
+        stack1.push(x);
     }
     
     public int pop() {
-        while(stack1.size() > 1){
-            stack2.add(stack1.get(stack1.size() - 1));
-            stack1.remove(stack1.size() - 1);
+         if (stack2.isEmpty()) {
+            transferInputToOutput();
         }
-
-        int popped_element = stack1.get(0);
-        stack1.remove(0);
-        while(stack2.size() > 0){
-            stack1.add(stack2.get(stack2.size() - 1));
-            stack2.remove(stack2.size() - 1);
-        }
-    
-        return popped_element;
+        return stack2.pop();
     }
     
     public int peek() {
-        while(stack1.size() > 1){
-            stack2.add(stack1.get(stack1.size() - 1));
-            stack1.remove(stack1.size() - 1);
+        if (stack2.isEmpty()) {
+            transferInputToOutput();
         }
 
-        int popped_element = stack1.get(0);
-        while(stack2.size() > 0){
-            stack1.add(stack2.get(stack2.size() - 1));
-            stack2.remove(stack2.size() - 1);
-        }
-    
-        return popped_element;
-        
+        return stack2.peek();
     }
     
     public boolean empty() {
-        if(stack1.isEmpty()){
-            return true;
-        }
 
-        return false;
+        return stack1.isEmpty() && stack2.isEmpty();
+    }
+
+    private void transferInputToOutput() {
+        while (!stack1.isEmpty()) {
+            stack2.push(stack1.pop());
+        }
     }
 }
 
