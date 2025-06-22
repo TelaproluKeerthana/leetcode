@@ -4,26 +4,18 @@ class Solution {
         // int[] res = new int[length];
         Map<Integer, Integer> res = new HashMap<>();
         Stack<Integer> stack = new Stack<>();
-        for(int i = length; i >= 0; i--){
-            int curr = nums2[i];
+        for(int num : nums2){
 
-            while (!stack.isEmpty() && stack.peek() <= curr) {
-                stack.pop();
+            while (!stack.isEmpty() && stack.peek() < num) {
+               res.put(stack.pop(), num);
             }
-            if(stack.isEmpty()){
-                res.put(curr, -1);
-            }
-            else{
-                res.put(curr, stack.peek());
-            }
-
-            stack.push(nums2[i]); 
+            stack.push(num);
         } 
        
 
        int[] result = new int[nums1.length];
        for(int i = 0; i < nums1.length; i++){
-        result[i] = res.get(nums1[i]);
+        result[i] = res.getOrDefault(nums1[i], -1);
        }
 
        return result;
