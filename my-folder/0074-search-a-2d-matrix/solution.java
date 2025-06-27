@@ -1,19 +1,38 @@
-class Solution {  
+class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        int rows = matrix.length, cols = matrix[0].length;
-        int row = 0, col = matrix[0].length - 1;
-        while(row < rows && col >= 0){
-            if(matrix[row][col] > target){
-                col -= 1;
+        int top = 0;
+        int bot = matrix.length - 1;
+        int cols = matrix[0].length;
+        while(top <= bot){
+            int row = (top + bot) / 2;
+            if(matrix[row][cols - 1] < target){
+                top = row + 1;
             }
-            else if(matrix[row][col] < target){
-                row += 1;
+            else if(matrix[row][0] > target){
+                bot = row - 1;
             }
             else{
-                return true;
+                break;
             }
         }
 
+        if (!(top <= bot)) {
         return false;
+        } 
+
+         int row = (top + bot) / 2;
+        int l = 0, r = cols - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (target > matrix[row][m]) {
+                l = m + 1;
+            } else if (target < matrix[row][m]) {
+                r = m - 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
+        
     }
 }
