@@ -1,24 +1,32 @@
+class ListNode{
+    int val;
+    ListNode prev, next;
+
+    public ListNode(int val, ListNode prev, ListNode next){
+        this.val = val;
+        this.prev = prev;
+        this.next = next;
+    }
+}
+
 class MyCircularQueue {
-    int[] cirQue;
-    int count;
-    int rear;
-    int front;
-    int size;
+    private int cap;
+    private ListNode left, right;
     public MyCircularQueue(int k) {
-        cirQue = new int[k];
-        rear = 0;
-        front = 0;
-        count = 0;
-        size = k;
+        cap = k;
+        left = new ListNode(0, null, null);
+        right = new ListNode(0, left, null);
+        left.next = right;
     }
     
     public boolean enQueue(int value) {
         if(isFull()){
             return false;
         }
-        cirQue[rear] = value;
-        rear = (rear + 1) % size;
-        count++;
+        ListNode curr = new ListNode(value, right.prev, right);
+        right.prev.next = curr;
+        right.prev = curr;
+        cap--;
         return true;
         
     }
@@ -27,29 +35,30 @@ class MyCircularQueue {
         if(isEmpty()){
             return false;
         }
-        front = (front + 1) % size;
-        count--;
+        left.next = left.next.next;
+        left.next.prev = left;
+        cap++;
         return true;
     }
     
     public int Front() {
-        return isEmpty() ? -1 : cirQue[front];
+        return isEmpty() ? -1 : left.next.val;
     }
     
     public int Rear() {
         if(isEmpty()){
             return -1;
         } 
-        int lastIdx = (rear - 1 + size) % size;
-        return cirQue[lastIdx];
+        
+        return isEmpty() ? -1 : right.prev.val;
     }
     
     public boolean isEmpty() {
-       return count == 0;
+       return left.next == right;
     }
     
     public boolean isFull() {
-        return count == size;
+        return cap == 0;
     }
 }
 
