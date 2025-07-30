@@ -15,21 +15,27 @@
  */
 class Solution {
     public boolean isBalanced(TreeNode root) {
-        if(root == null){
-            return true;
-        }
-
-        if(Math.abs(depthOfBinaryTree(root.left) - depthOfBinaryTree(root.right)) > 1) {
-            return false;
-        }
-        
-        return isBalanced(root.left) && isBalanced(root.right);
+        return depthOfBinaryTree(root) != -1;
     }
 
     private int depthOfBinaryTree(TreeNode node){
         if(node == null){
          return 0;   
         }
-        return 1 + Math.max(depthOfBinaryTree(node.left), depthOfBinaryTree(node.right));
+        int left = depthOfBinaryTree(node.left);
+        if(left == -1){
+            return -1;
+        }
+
+        int right = depthOfBinaryTree(node.right);
+        if(right == -1){
+            return -1;
+        }
+
+        if(Math.abs(left - right) > 1){
+            return -1;
+        }
+
+        return 1 + Math.max(left, right);
     }
 }
