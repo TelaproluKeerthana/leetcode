@@ -1,10 +1,12 @@
 class Solution {
     public int removeElement(int[] nums, int val) {
         int j = 0;
+        // j to keep track of the until which number there are no numbers which are a value 
+        // so when we see a number that isn't the value, then we update it in the position where we found 
         for(int i = 0; i < nums.length; i++){
             if(nums[i] != val){
                 nums[j] = nums[i];
-                j ++;
+                j++;
             }
         }
         return j;
