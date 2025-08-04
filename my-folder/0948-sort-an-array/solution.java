@@ -1,47 +1,50 @@
 class Solution {
     public int[] sortArray(int[] nums) {
-        if(nums == null || nums.length == 0){
-            return nums;
-        }
-        mergesort(nums, 0, nums.length - 1);
+        mergeSort(nums, 0, nums.length - 1);
         return nums;
     }
 
-    private void mergesort(int[] nums, int left, int right){
+    private void mergeSort(int[] nums, int left, int right){
         if(left >= right){
             return;
         }
-        int mid = left+ (right - left) / 2;
-        mergesort(nums, left, mid);
-        mergesort(nums, mid + 1, right);
+        int mid = left + (right - left) / 2;
+        mergeSort(nums, left, mid);
+        mergeSort(nums, mid + 1, right);
         merge(nums, left, mid, right);
     }
 
     private void merge(int[] nums, int left, int mid, int right){
         int[] temp = new int[right - left + 1];
-        int i = left;
-        int j = mid + 1;
+        int start = left;
+        int start2 = mid + 1;
         int k = 0;
-
-        while(i <= mid && j <= right){
-            if(nums[i] <= nums[j]){
-                temp[k++] = nums[i++];
+        
+        //when either of these conditions fail then you may be left with only a half which needs merging
+        while(start <= mid && start2 <= right){
+            if(nums[start] <= nums[start2]){
+                temp[k] = nums[start];
+                k++;
+                start++;
             }
             else{
-                temp[k++] = nums[j++];
+                temp[k++] = nums[start2++];
             }
         }
 
-        while(i <= mid){
-            temp[k++] = nums[i++];
+        // when we are left with first half
+        while(start <= mid){
+            temp[k++] = nums[start++];
+        } 
+
+        // when we are left with second half 
+        while(start2 <= right){ 
+            temp[k++] = nums[start2++];
         }
 
-        while(j <= right){
-            temp[k++] = nums[j++];
-        }
-        
-        for(int p = 0; p < temp.length; p++){
-            nums[left + p] = temp[p];
+        // rearrange the merged part into nums
+        for(int i = 0; i < temp.length; i++){
+            nums[left + i] = temp[i];
         }
     }
 }
