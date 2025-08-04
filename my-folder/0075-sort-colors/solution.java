@@ -1,28 +1,25 @@
 class Solution {
     public void sortColors(int[] nums) {
         int left = 0;
-        int right = nums.length - 1;
         int curr = 0;
+        int right = nums.length - 1;
         while(curr <= right){
-            //when we see a 0 swap it and place it to the left
+            //all the 0's are to be stored in the front
             if(nums[curr] == 0){
-                int temp = nums[curr];
-                nums[curr] = nums[left];
-                nums[left] = temp;
-                left++;
-                curr++;
+                int temp = nums[left];
+                nums[left++] = nums[curr];
+                nums[curr++] = temp;
             }
-            //when we see a 2 push it to the end of the array and keep the current at the same position to check if the value to the left are all 0's
+            // all 2's should be at the end, curr should be incremented only when the we encounter a 0, 
             else if(nums[curr] == 2){
-                int temp = nums[curr];
-                nums[curr] = nums[right];
-                nums[right] = temp;
-                right--;
+                int temp = nums[right];
+                nums[right--] = nums[curr];
+                nums[curr] = temp;
             }
+            // this is the care where 1's, we move to next element as 1's are supposed to be in the center
             else{
                 curr++;
             }
-
         }
     }
 }
