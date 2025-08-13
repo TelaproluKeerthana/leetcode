@@ -5,16 +5,13 @@ class Solution {
         }
         PriorityQueue<Integer> elements = new PriorityQueue<>();
         for(int num: nums){
-            elements.add(-num);
+            elements.add(num);
+            while(elements.size() > k){
+                elements.poll();
+            }
         }
-        int klargest = k;
-        int curr = 0;
-        while(!elements.isEmpty() && klargest > 0){
-            curr = elements.poll();
-            klargest -= 1;
-        }
-
-        return -curr;
+        
+        return elements.peek();
     }
 }
 
