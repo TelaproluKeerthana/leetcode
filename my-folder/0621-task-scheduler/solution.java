@@ -1,38 +1,46 @@
-public class Solution {
+class Solution {
     public int leastInterval(char[] tasks, int n) {
-        // array to keep track of the count of tasks
-        int[] count = new int[26];
+        int[] frequency = new int[26];
         for (char task : tasks) {
-            count[task - 'A']++;
+            frequency[task - 'A']++;
         }
-    
-        // push only the counts to maxheap
+        // Count frequency of each task (A–Z)
+
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-        for (int cnt : count) {
-            if (cnt > 0) {
-                maxHeap.add(cnt);
+        for (int freq : frequency) {
+            if (freq > 0) {
+                maxHeap.offer(freq);
             }
         }
-        
-        int time = 0;
-        Queue<int[]> q = new LinkedList<>();
-        while (!maxHeap.isEmpty() || !q.isEmpty()) {
-            time++;
+        // Max heap stores the remaining count of each task (highest frequency first)
 
+        int time = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        // Queue stores tasks that are cooling down: [remainingCount, nextAvailableTime]
+
+        while (!queue.isEmpty() || !maxHeap.isEmpty()) {
+            time++;
+            
+            // If heap was empty but queue wasn't, time jumps to next available task
             if (maxHeap.isEmpty()) {
-                time = q.peek()[1];
-            } else {
-                int cnt = maxHeap.poll() - 1;
-                if (cnt > 0) {
-                    q.add(new int[]{cnt, time + n});
+                time = queue.peek()[1];
+            }
+            else{
+                // Take the most frequent task and process it
+                int count = maxHeap.poll() - 1;
+                if (count > 0) {
+                    // If the task still has occurrences left, put it in cooldown
+                    queue.offer(new int[]{count, time + n});
                 }
             }
 
-            if (!q.isEmpty() && q.peek()[1] == time) {
-                maxHeap.add(q.poll()[0]);
+            // Check if any task finished its cooldown at this time
+            if (!queue.isEmpty() && queue.peek()[1] == time) {
+                maxHeap.offer(queue.poll()[0]);
             }
+            
         }
-
         return time;
     }
 }
+
