@@ -19,25 +19,26 @@ class Twitter {
     // append the new post in front of the existing userTweets
     public void postTweet(int userId, int tweetId) {
         Tweet head = userTweets.get(userId);
-        Tweet newTweet = new Tweet(tweetId, ++timestamp, head);
-        userTweets.put(userId, newTweet);
+        Tweet newhead = new Tweet(tweetId, ++timestamp, head);
+        userTweets.put(userId, newhead);
     }
     
     public List<Integer> getNewsFeed(int userId) {
         following.computeIfAbsent(userId, k -> new HashSet<>()).add(userId);
         PriorityQueue<Tweet> pq = new PriorityQueue<>((a, b) -> b.ts - a.ts);
-
-        for (int followee : following.get(userId)) {
+        List<Integer> feed = new ArrayList<>();
+        for(int followee : following.get(userId)){
             Tweet t = userTweets.get(followee);
-            if (t != null) pq.offer(t);
+            if(t != null){
+                pq.offer(t);
+            }            
         }
-
-         List<Integer> feed = new ArrayList<>(10);
-        while (!pq.isEmpty() && feed.size() < 10) {
+        while(!pq.isEmpty() && feed.size() < 10){
             Tweet cur = pq.poll();
             feed.add(cur.id);
             if (cur.next != null) pq.offer(cur.next); 
         }
+
         return feed;
     }
     
@@ -50,8 +51,10 @@ class Twitter {
         if(followerId == followeeId){
             return;
         }
+
         Set<Integer> set = following.get(followerId);
-        if(set != null)  set.remove(followeeId);
+        if(set != null)set.remove(followeeId);
+
     }
 }
 
