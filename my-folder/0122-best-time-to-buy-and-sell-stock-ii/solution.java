@@ -1,23 +1,16 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        // Using the greedy algorithm to solve this
-        int profit = 0;
-        int idx = 1;
-        int buy = prices[0];
-        while(idx < prices.length){
-            int curr = prices[idx];
-            if(buy > curr){
-                buy = curr;
-                idx += 1;
-            }
-            else{
-                profit += curr - buy;
-                buy = curr;
-                idx += 1;
-
+        // Using the greedy algorithm
+        int totalProfit = 0;
+        for(int i = 1; i < prices.length; i++){
+            int currPrice = prices[i];
+            int prevPrice = prices[i - 1];
+            if(currPrice > prevPrice){
+                totalProfit += currPrice - prevPrice;
             }
         }
-        return profit;  
+
+        return totalProfit;
     }
 }
 
