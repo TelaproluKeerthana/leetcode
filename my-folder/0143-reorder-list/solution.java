@@ -10,27 +10,22 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        if (head == null || head.next == null) return;
+        // get mid node
+        // reverse the nodes after the mid node
+        // merge the nodes and return the first node
 
-        int length = 0;
-        ListNode dummy = head;
-        while(dummy != null){
-            dummy = dummy.next;
-            length += 1;
+        ListNode currHead = head;
+        ListNode slow = currHead, fast = currHead;
+        while(fast.next != null && fast.next.next != null){
+        slow = slow.next;
+        fast = fast.next.next;    
         }
 
-        int mid = (int)Math.ceil((double)length / 2);
-        int cur = 0;
-        ListNode dummy2 = head;
-        while(cur < mid - 1){
-            dummy2 = dummy2.next;
-            cur += 1;
-        }
-
-        //now we need a reverse the second half to reorder
-        ListNode curr = dummy2.next;
-        dummy2.next = null;
+        ListNode secondHalf = slow.next;
+        slow.next = null;
+        ListNode curr = secondHalf;
         ListNode prev = null;
+        // reverse secondHalf
         while(curr != null){
             ListNode temp = curr.next;
             curr.next = prev;
@@ -38,21 +33,16 @@ class Solution {
             curr = temp;
         }
         
-        //reorder both lists together
-        ListNode first = head;
-        ListNode second = prev;
-
-        while (first != null && second != null) {
-            ListNode tmp1 = first.next;
-            ListNode tmp2 = second.next;
-
-            first.next = second;
-            if (tmp1 == null) break; 
-            second.next = tmp1;
-
-            first = tmp1;
-            second = tmp2;
+        secondHalf = prev;
+        ListNode firstHalf = currHead;
+        while(secondHalf != null){
+            ListNode temp = firstHalf.next;
+            ListNode temp2 = secondHalf.next;
+            firstHalf.next = secondHalf;
+            secondHalf.next = temp;
+            firstHalf = temp;
+            secondHalf = temp2;
         }
-        
+
     }
 }
