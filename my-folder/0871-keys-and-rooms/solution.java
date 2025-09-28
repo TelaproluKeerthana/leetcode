@@ -1,10 +1,10 @@
 class Solution {
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
         // build a adjacency list 
-        Map<Integer, List<Integer>> adjList = new HashMap<>();
-        for(int i = 0; i < rooms.size(); i++){
-            adjList.put(i, rooms.get(i));
-        }
+        // Map<Integer, List<Integer>> adjList = new HashMap<>();
+        // for(int i = 0; i < rooms.size(); i++){
+        //     adjList.put(i, rooms.get(i));
+        // // }
 
         Set<Integer> visited = new HashSet<>();
         Queue<Integer> que = new ArrayDeque<>();
@@ -12,7 +12,7 @@ class Solution {
         visited.add(0);
         while(!que.isEmpty()){
             int curr = que.poll();
-            List<Integer> currRoomNeighbors = adjList.get(curr);
+            List<Integer> currRoomNeighbors = rooms.get(curr);
             for(int i = 0; i < currRoomNeighbors.size(); i++){
                 int neighbor = currRoomNeighbors.get(i);
                 if(!visited.contains(neighbor)){
