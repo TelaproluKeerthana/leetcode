@@ -1,11 +1,13 @@
 class Solution {
     public int[] sortArray(int[] nums) {
-        mergeSort(nums, 0, nums.length - 1);
-        return nums;
+     // split array into half until only 1 element is presentin each compare those two merge halves
+     // return the end result
+     mergeSort(nums, 0, nums.length - 1);
+     return nums;    
     }
 
-    private void mergeSort(int[] nums, int left, int right){
-        if(left >= right){
+    public void mergeSort(int[] nums, int left, int right){
+        while(left >= right){
             return;
         }
         int mid = left + (right - left) / 2;
@@ -14,37 +16,29 @@ class Solution {
         merge(nums, left, mid, right);
     }
 
-    private void merge(int[] nums, int left, int mid, int right){
+    public void merge(int[] nums, int left,int mid, int right){
         int[] temp = new int[right - left + 1];
         int start = left;
         int start2 = mid + 1;
-        int k = 0;
-        
-        //when either of these conditions fail then you may be left with only a half which needs merging
+        int idx = 0;
         while(start <= mid && start2 <= right){
-            if(nums[start] <= nums[start2]){
-                temp[k] = nums[start];
-                k++;
-                start++;
-            }
-            else{
-                temp[k++] = nums[start2++];
-            }
+            if(nums[start] < nums[start2])temp[idx++] = nums[start++];
+            else temp[idx++] = nums[start2++];
         }
 
-        // when we are left with first half
+        // when either of the halves still exist
         while(start <= mid){
-            temp[k++] = nums[start++];
-        } 
-
-        // when we are left with second half 
-        while(start2 <= right){ 
-            temp[k++] = nums[start2++];
+            temp[idx++] = nums[start++];
         }
 
-        // rearrange the merged part into nums
+        while(start2 <= right){
+            temp[idx++] = nums[start2++];
+        }
+
         for(int i = 0; i < temp.length; i++){
             nums[left + i] = temp[i];
         }
     }
+
+
 }
