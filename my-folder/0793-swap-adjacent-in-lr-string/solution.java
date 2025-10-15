@@ -1,35 +1,33 @@
 class Solution {
     public boolean canTransform(String start, String result) {
-       int i = 0;
-       int j = 0;
-       int length = start.length();
+        int left = 0, right = 0;
+        int len = start.length();
+        while(left < len || right < len){
 
-       while(i < length || j < length){
-
-            while (i < length && start.charAt(i) == 'X') i++;
-            while(j < length && result.charAt(j) == 'X') j++;
-
-            // case when both reached the end of the array
-            if(i == length && j == length){
+            while(left < len && start.charAt(left) == 'X') left++;
+            while(right < len && result.charAt(right) == 'X') right++;
+            
+            if(left == len && right == len){
                 return true;
             }
 
-            // when one of the ptr reaches end of the array
-            if(i == length || j == length){
+            if(left == len || right == len){
                 return false;
             }
 
-            if(start.charAt(i) != result.charAt(j)){
+            // look for early returns rather adding more cases 
+            if(start.charAt(left) != result.charAt(right)){
                 return false;
             }
 
-            if (start.charAt(i) == 'L' && i < j) return false; // L can't move right
-            if (start.charAt(i) == 'R' && i > j) return false; // R can't move left
+            // invalid cases 
+            if((left < right && start.charAt(left) == 'L') || (left > right && start.charAt(left) == 'R') ){
+                return false;
+            }
 
-            i++;
-            j++;
-       }
-
-       return true;
+            left++;
+            right++;
+        }
+    return true;
     }
 }
