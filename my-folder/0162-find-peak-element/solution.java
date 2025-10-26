@@ -16,7 +16,7 @@ class Solution {
 }
 
 // [1,2,3,1]
-
+// intuition: if nums[mid] > nums
 //    left = 0
 //    right = 3
 
