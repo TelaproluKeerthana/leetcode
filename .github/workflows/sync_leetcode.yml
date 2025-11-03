@@ -10,13 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Sync Leetcode submissions
-        uses: mixteran/leetcode-sync@main  # ✅ updated fork
+      - name: Sync LeetCode submissions
+        uses: joshcai/leetcode-sync@v1.5
         with:
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
           leetcode-session: ${{ secrets.LEETCODE_SESSION }}
           destination-folder: my-folder
+          filter-duplicate-secs: 300
