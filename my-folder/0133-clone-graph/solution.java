@@ -22,11 +22,7 @@ class Solution {
     Map<Integer, Node> mapNodes = new HashMap<>();
     public Node cloneGraph(Node node) {
         if (node == null) return null;
-        return dfs(node);
-    }
-
-    private Node dfs(Node node){
-        if(mapNodes.containsKey(node.val)){
+         if(mapNodes.containsKey(node.val)){
             return mapNodes.get(node.val);
         }
 
@@ -34,9 +30,15 @@ class Solution {
         mapNodes.put(node.val, cNode);
 
         for(Node nei : node.neighbors){
-                cNode.neighbors.add(dfs(nei));
+                if(mapNodes.containsKey(nei.val)){
+                    cNode.neighbors.add(mapNodes.get(nei.val));
+                }
+                else{
+                    cNode.neighbors.add(cloneGraph(nei));
+                }
         }
-        
+
         return cNode;
+
     }
 }
