@@ -1,42 +1,37 @@
 class Solution {
-
-    // cycle detection approach
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        Map<Integer, List<Integer>> adjList = new HashMap<>();
-        HashSet<Integer> visiting = new HashSet<>();
+        // topological sort 
+        List<List<Integer>> adjList = new ArrayList<>();
+        int[] indegree = new int[numCourses];
 
         for(int c = 0; c < numCourses; c++){
-         adjList.put(c, new ArrayList<>());   
+            adjList.add(new ArrayList<>());
         }
 
         for(int[] pre : prerequisites){
             adjList.get(pre[0]).add(pre[1]);
+            indegree[pre[1]]++;
         }
 
-
+        Queue<Integer> que = new LinkedList<>();
+        int finish = 0;
         for(int c = 0; c < numCourses; c++){
-            if(!dfs(c, adjList, visiting)){
-                return false;
+            if(indegree[c] == 0){
+                que.offer(c);
             }
         }
 
-       return true; 
-    }
-
-    public boolean dfs(int course, Map<Integer, List<Integer>> adjList, HashSet<Integer> visiting){
-        if(visiting.contains(course)) return false;
-
-        if(adjList.get(course).isEmpty()) return true;
-
-        visiting.add(course);
-        for(int crs : adjList.get(course)){
-            if(!dfs(crs, adjList, visiting)){
-                return false;
+        while(!que.isEmpty()){
+            int curr = que.poll();
+            finish++;
+            for(int nei : adjList.get(curr)){
+                indegree[nei]--;
+                if(indegree[nei] == 0){
+                    que.offer(nei);
+                }
             }
         }
-        visiting.remove(course);
-        adjList.put(course, new ArrayList<>());
 
-        return true;
+    return finish == numCourses;
     }
 }
