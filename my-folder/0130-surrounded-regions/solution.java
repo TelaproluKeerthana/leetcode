@@ -1,43 +1,47 @@
 class Solution {
-    public void solve(char[][] board) {
-        if (board == null || board.length == 0) return;
-
-        int m = board.length, n = board[0].length;
-
-        // Step 1: mark border-connected 'O's
-        for (int i = 0; i < m; i++) {
-            if (board[i][0] == 'O') dfs(board, i, 0);
-            if (board[i][n - 1] == 'O') dfs(board, i, n - 1);
-        }
-        for (int j = 0; j < n; j++) {
-            if (board[0][j] == 'O') dfs(board, 0, j);
-            if (board[m - 1][j] == 'O') dfs(board, m - 1, j);
+    public void solve(char[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        for(int row = 0; row  < rows; row++){
+            dfs(row, 0, grid);
+            dfs(row, cols - 1, grid);
         }
 
-        // Step 2: flip captured and restore escaped
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (board[i][j] == 'O') {
-                    board[i][j] = 'X';  // surrounded -> captured
-                } else if (board[i][j] == 'E') {
-                    board[i][j] = 'O';  // escaped -> restore
+        for(int col = 0; col  < cols; col++){
+            dfs(0, col, grid);
+            dfs(rows - 1, col, grid);
+        }
+
+        for(int row = 0; row < rows; row++){
+            for(int col = 0; col < cols; col++){
+                if(grid[row][col] == 'O'){
+                    grid[row][col] = 'X';
+                }
+                else if(grid[row][col] == 'U'){
+                    grid[row][col] = 'O';
                 }
             }
         }
+        
     }
 
-    private void dfs(char[][] board, int row, int col) {
-        int m = board.length, n = board[0].length;
-        if (row < 0 || row >= m || col < 0 || col >= n || board[row][col] != 'O') {
+    public void dfs(int r, int c, char[][] board){
+        int rows = board.length;
+        int cols = board[0].length;
+        if(r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] != 'O'){
             return;
         }
 
-        board[row][col] = 'E'; // mark as escaped
-
-        dfs(board, row - 1, col);
-        dfs(board, row + 1, col);
-        dfs(board, row, col - 1);
-        dfs(board, row, col + 1);
+        board[r][c] = 'U';
+        
+        dfs(r + 1, c, board);
+        dfs(r - 1, c, board);
+        dfs(r, c + 1, board);
+        dfs(r, c - 1, board);
     }
 }
+
+
+// if you have o's at 0 row/col or n - 1 row/col dont consider to update them. 
+//  then check where ever you have o's and try to capture them but updating index value
 
