@@ -1,36 +1,42 @@
-public class Solution {
+class Solution {   
+
     public int[] findRedundantConnection(int[][] edges) {
+        List<List<Integer>> adjList = new ArrayList<>();
         int n = edges.length;
         int[] indegree = new int[n + 1];
-        List<List<Integer>> adj = new ArrayList<>(n + 1);
-        for (int i = 0; i <= n; i++) adj.add(new ArrayList<>());
-        for (int[] edge : edges) {
-            int u = edge[0], v = edge[1];
-            adj.get(u).add(v);
-            adj.get(v).add(u);
-            indegree[u]++;
-            indegree[v]++;
+        for(int i = 0; i <= n; i++)  adjList.add(new ArrayList<>());
+
+        for(int[] edge : edges){
+            int from = edge[0];
+            int to = edge[1];
+            adjList.get(from).add(to);
+            adjList.get(to).add(from);
+            indegree[from]++;
+            indegree[to]++;
         }
 
-        Queue<Integer> q = new LinkedList<>();
-        for (int i = 1; i <= n; i++) {
-            if (indegree[i] == 1) q.offer(i);
+        Queue<Integer> que = new LinkedList<>();
+        for(int i = 1; i <= n; i++){
+            if(indegree[i] == 1) que.offer(i);
         }
 
-        while (!q.isEmpty()) {
-            int node = q.poll();
+        while(!que.isEmpty()){
+            int node = que.poll();
             indegree[node]--;
-            for (int nei : adj.get(node)) {
+            for(int nei : adjList.get(node)){
                 indegree[nei]--;
-                if (indegree[nei] == 1) q.offer(nei);
+                if(indegree[nei] == 1) que.offer(nei);
             }
         }
 
-        for (int i = edges.length - 1; i >= 0; i--) {
-            int u = edges[i][0], v = edges[i][1];
-            if (indegree[u] == 2 && indegree[v] > 0)
-                return new int[]{u, v};
+        for(int i = n - 1; i >= 0; i--){
+            int from = edges[i][0];
+            int to = edges[i][1];
+            if(indegree[from] == 2 & indegree[to] > 0){
+                return new int[]{from, to};
+            }
         }
+
         return new int[0];
     }
 }
