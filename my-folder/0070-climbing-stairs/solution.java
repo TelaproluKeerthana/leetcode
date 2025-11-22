@@ -3,17 +3,20 @@ class Solution {
         if(n == 1 || n == 2){
             return n;
         }
-        int curr = 2;
-        int prev = 1;
+        int prevClimb = 1;
+        int currClimb = 2;
         for(int i = 3; i <= n; i++){
-            int temp = curr;
-            curr = curr + prev;
-            prev = temp;
+            int temp = currClimb;
+            currClimb = prevClimb + currClimb;
+            prevClimb = temp;
         }
-    
-    return curr;
+
+        return currClimb;
     }
 }
+
+// 3 
+// 1 + 2
 
 // // n = 4
 // curr = 2
