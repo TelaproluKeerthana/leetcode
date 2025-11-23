@@ -1,37 +1,41 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        // topological sort 
         List<List<Integer>> adjList = new ArrayList<>();
         int[] indegree = new int[numCourses];
 
-        for(int c = 0; c < numCourses; c++){
+        for (int i = 0; i < numCourses; i++) {
             adjList.add(new ArrayList<>());
         }
 
-        for(int[] pre : prerequisites){
-            adjList.get(pre[0]).add(pre[1]);
-            indegree[pre[1]]++;
+        for (int[] pre : prerequisites) {
+            int course = pre[0];
+            int prereq = pre[1];
+
+            adjList.get(prereq).add(course); 
+            indegree[course]++;
         }
 
         Queue<Integer> que = new LinkedList<>();
-        int finish = 0;
-        for(int c = 0; c < numCourses; c++){
-            if(indegree[c] == 0){
+        for (int c = 0; c < numCourses; c++) {
+            if (indegree[c] == 0) {
                 que.offer(c);
             }
         }
 
-        while(!que.isEmpty()){
+        int count = 0;
+        while (!que.isEmpty()) {
             int curr = que.poll();
-            finish++;
-            for(int nei : adjList.get(curr)){
-                indegree[nei]--;
-                if(indegree[nei] == 0){
-                    que.offer(nei);
+            count++;
+
+            for (int next : adjList.get(curr)) {
+                indegree[next]--;
+                if (indegree[next] == 0) {
+                    que.offer(next);
                 }
             }
         }
 
-    return finish == numCourses;
+        return count == numCourses;
     }
 }
+
