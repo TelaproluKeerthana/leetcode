@@ -1,36 +1,48 @@
 class Solution {
     public String minWindow(String s, String t) {
-        if (s.length() == 0 || t.length() == 0) return "";
-
-        int[] tFreq = new int[128];  // ASCII size
+        int[] tMap = new int[128];
+        int need = 0;
+        
         for (char c : t.toCharArray()) {
-            tFreq[c]++;
+            if (tMap[c] == 0) need++; 
+            tMap[c]++;
         }
 
-        int left = 0, right = 0, minLen = Integer.MAX_VALUE, start = 0;
-        int required = t.length();
-        
-        while (right < s.length()) {
-            char rChar = s.charAt(right);
-            if (tFreq[rChar] > 0) required--; // needed char found
-            tFreq[rChar]--; // can go negative if char is extra
-            right++;
+        int[] sMap = new int[128];
+        int have = 0;
 
-            // Now try to contract from left while valid
-            while (required == 0) {
-                if (right - left < minLen) {
-                    minLen = right - left;
+        int left = 0;
+        int minLen = Integer.MAX_VALUE;
+        int start = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+            sMap[c]++;
+
+            if (tMap[c] > 0 && sMap[c] == tMap[c]) {
+                have++;
+            }
+
+            while (have == need) {
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
                     start = left;
                 }
 
-                char lChar = s.charAt(left);
-                tFreq[lChar]++;
-                if (tFreq[lChar] > 0) required++; // we lost a required char
+                char lc = s.charAt(left);
+                sMap[lc]--;
+
+                if (tMap[lc] > 0 && sMap[lc] < tMap[lc]) {
+                    have--;
+                }
+
                 left++;
             }
         }
 
-        return minLen == Integer.MAX_VALUE ? "" : s.substring(start, start + minLen);
+        return (minLen == Integer.MAX_VALUE)
+                ? ""
+                : s.substring(start, start + minLen);
     }
 }
 
