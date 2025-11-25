@@ -5,16 +5,25 @@ class Solution {
         for(int num : nums){
             counter.put(num, 1 + counter.getOrDefault(num , 0));
         }
-            while(alist.size() < k){
-                Map.Entry<Integer, Integer> maxEntry = Collections.max(counter.entrySet(), Map.Entry.comparingByValue());
-                alist.add(maxEntry.getKey());
-                counter.remove(maxEntry.getKey());
-            }
-        
-        int[] frequentNumbers = new int[alist.size()];
-        for(int i = 0; i < alist.size(); i++){
-            frequentNumbers[i] = alist.get(i);
+
+        PriorityQueue<int[]> que = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+        //  PriorityQueue<int[]> que = new PriorityQueue<>(Collections.reverseOrder());
+        for(Map.Entry<Integer, Integer> curr : counter.entrySet()){
+            que.offer(new int[]{curr.getValue(), curr.getKey()});
         }
-        return frequentNumbers;
+
+        int[] res = new int[k];
+        int idx = 0;
+        while(k > 0){
+            int[] curr = que.poll();
+            res[idx++] = curr[1];
+            k--;
+        }
+
+        return res;
     }
 }
+
+// 1 : 3
+// 2 : 2
+// 3 : 1
