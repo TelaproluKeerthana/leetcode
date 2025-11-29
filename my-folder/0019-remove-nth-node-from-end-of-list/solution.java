@@ -16,6 +16,7 @@ class Solution {
 
         ListNode slow = dummy;
         ListNode fast = dummy;
+        
         while(n >= 0){
             fast = fast.next;
             n -= 1;
