@@ -10,39 +10,67 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        // get mid node
-        // reverse the nodes after the mid node
-        // merge the nodes and return the first node
+        if (head == null || head.next == null) return;
 
-        ListNode currHead = head;
-        ListNode slow = currHead, fast = currHead;
-        while(fast.next != null && fast.next.next != null){
+       ListNode slow = head;
+       ListNode fast = head;
+       while(fast != null && fast.next != null){
         slow = slow.next;
-        fast = fast.next.next;    
-        }
+        fast = fast.next.next;
+       }
 
-        ListNode secondHalf = slow.next;
-        slow.next = null;
-        ListNode curr = secondHalf;
+       ListNode second = reverseList(slow.next);
+       slow.next = null; // break the list after that node 
+
+       ListNode first = head;
+       while(second != null){
+        ListNode temp1 = first.next;
+        ListNode temp2 = second.next;
+
+        first.next = second;
+        second.next = temp1;
+
+        first = temp1;
+        second = temp2;
+       }
+    }
+    
+    private ListNode reverseList(ListNode node){
         ListNode prev = null;
-        // reverse secondHalf
-        while(curr != null){
-            ListNode temp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = temp;
-        }
-        
-        secondHalf = prev;
-        ListNode firstHalf = currHead;
-        while(secondHalf != null){
-            ListNode temp = firstHalf.next;
-            ListNode temp2 = secondHalf.next;
-            firstHalf.next = secondHalf;
-            secondHalf.next = temp;
-            firstHalf = temp;
-            secondHalf = temp2;
+        while(node != null) {
+            ListNode temp = node.next;
+            node.next = prev;
+            prev = node;
+            node = temp;
         }
 
+        return prev;
     }
 }
+//      s
+// 1 -> 2 -> 3 -> 4  null
+//           f
+//           s
+// 1 -> 2 -> 3 -> 4 -> 5
+//                     f
+// Input: head = [1,2,3,4]
+// 1 -> 2   null <- 3 <- 4
+// h1                    h2
+// get length of the list and when the mid value is reached, break the list from the half and reverse the second half 
+// iterate the second half and reverse the nodes in second half
+// then do this
+// create dummynode 
+// create curr = dummynode // copy node for traversal and list building 
+// while(h2 != null)
+// dummynode.next = h1
+// h1 = h1.next
+// dummynode = dummynode.next
+// dummynode.next = h2 
+// h2 = h2.next
+// dummynode = dummynode.next
+
+// while h1 != null
+// dummynode.next = h1
+
+// return curr.next and return the list
+// Output: [1,4,2,3]
