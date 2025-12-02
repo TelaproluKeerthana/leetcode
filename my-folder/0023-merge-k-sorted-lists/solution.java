@@ -10,32 +10,25 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        ListNode resList = new ListNode(0);
-
+        
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
         for(ListNode list : lists){
-            ListNode currhead = list;
-            while(currhead != null){
-                ListNode nextPtr = currhead.next;
-                insertNode(resList, currhead);
-                currhead = nextPtr;
+            if(list != null) pq.offer(list);
+        }
+
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+
+        while(!pq.isEmpty()){
+            ListNode node = pq.poll();
+            tail.next = node;
+            tail = tail.next;
+            if(node.next != null){
+                pq.offer(node.next);
             }
         }
 
-        return resList.next;
-    }
-
-    private void insertNode(ListNode resList, ListNode node){
-        ListNode prev = resList;
-        ListNode curr = resList.next;
-        
-        // move until the node val is less than the 
-        while(curr != null && curr.val <= node.val){
-            prev = curr;
-            curr = curr.next;
-        }
-        
-        prev.next = node;
-        node.next = curr;
+        return dummy.next;
     }
 }
 
