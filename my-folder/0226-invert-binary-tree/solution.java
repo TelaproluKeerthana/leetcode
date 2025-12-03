@@ -18,12 +18,16 @@ class Solution {
         if(root == null){
             return null;
         }
-        TreeNode dummy = null;
-        dummy = root.left;
-        root.left = root.right;
-        root.right = dummy;
-        invertTree(root.left);
-        invertTree(root.right);
+        TreeNode dummyL = root.left;
+        TreeNode dummyR = root.right;
+        
+        root.left = invertTree(dummyR);
+
+        root.right = invertTree(dummyL); 
+
+        
         return root;
     }
 }
+
+
