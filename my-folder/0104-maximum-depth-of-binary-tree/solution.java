@@ -18,26 +18,18 @@ class Solution {
         if(root == null){
             return 0;
         }
-        // breadth first search
-        int depth = 0;
-        Queue<TreeNode> que = new ArrayDeque<>();
-        que.offer(root);
-        while(que.size() > 0){
-            int currQueSize = que.size();
-            for(int i = 0; i < currQueSize; i++){
-                TreeNode curr = que.poll(); 
-                if(curr.left != null){
-                    que.offer(curr.left);
-                }
-                if(curr.right != null){
-                    que.offer(curr.right);
-                }
-            }
-            depth++;
-        }
 
-        return depth;
-
-
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 }
+
+// maxDepth(3)
+//      return 1 + (md(9), md(20)) 1 + max(1, 2) = 3
+
+// md(9)
+//     return 1 + max(0, 0) = 1
+// md(20)
+//     return 1 + max(md(15), md(7)) = 1 + max(1, 1) = 2
+//      3
+//  9       20
+//       15      7
