@@ -10,25 +10,24 @@
 
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        int maximum = Math.min(p.val, q.val);
-        int minimum = Math.max(p.val, q.val); 
+        // find min of two nodes if its greater than root
+        int minNode = Math.min(p.val, q.val);
+        // find max btw two nodes if its less than root search lst
+        int maxNode = Math.max(p.val, q.val);
 
-        if(p.val == root.val || q.val == root.val ){
+        if(root.val == p.val || q.val == root.val){
             return root;
         }
-        if(root.val < maximum){
-            // search right sub tree
+
+        if(minNode > root.val){
             return lowestCommonAncestor(root.right, p, q);
         }
-
-        else if(root.val >= minimum){
-            // search left sub tree
+        else if(maxNode <= root.val){
             return lowestCommonAncestor(root.left, p, q);
         }
-
         else{
             return root;
         }
-        
+         
     }
 }
