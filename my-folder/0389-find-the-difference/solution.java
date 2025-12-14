@@ -1,24 +1,20 @@
 class Solution {
     public char findTheDifference(String s, String t) {
-        Map<Character, Integer> tfreq = new HashMap<>();
+        int[] freq = new int[26];
         for(char c : t.toCharArray()){
-            tfreq.put(c, tfreq.getOrDefault(c, 0) + 1);
+            freq[c - 'a']++;
         }
-
-        Map<Character, Integer> sfreq = new HashMap<>();
+        
         for(char c : s.toCharArray()){
-            sfreq.put(c, sfreq.getOrDefault(c, 0) + 1);
+           freq[c - 'a']--;
         }
 
-        for(Map.Entry<Character, Integer> entry : tfreq.entrySet()){
-            char c = entry.getKey();
-            int tcount = entry.getValue();
-            int scount = sfreq.getOrDefault(c, 0);
-            if(tcount != scount){
-                return c;
-            }
+        for(int i = 0; i < 26; i++){
+            if(freq[i] > 0){
+                return (char)('a'+i); 
+            } 
         }
     
-        return ' ';
+        return '0';
     }
 }
