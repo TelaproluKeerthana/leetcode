@@ -1,75 +1,75 @@
 class ListNode{
-    int val;
+    int value;
     int key;
-    ListNode prev, next;
-
-    public ListNode(int key, int val){
-        this.val = val;
-        this.key= key;
-        this.prev = null;
-        this.next = null;
+    ListNode prev;
+    ListNode next;
+    public ListNode( int key, int value){
+        this.key = key;
+        this.value = value;
     }
 }
 
 class LRUCache {
-    int capacity;
-    Map<Integer, ListNode> cache;
-    private ListNode left;
-    private ListNode right;
+    ListNode left;
+    ListNode right; 
+    int size;
+
+    Map<Integer, ListNode> lru;
 
     public LRUCache(int capacity) {
-        this.capacity = capacity;
-        this.cache = new HashMap<>();
-        this.left = new ListNode(0, 0);
-        this.right = new ListNode(0, 0);
-        this.left.next = this.right;
-        this.right.prev = this.left;
-    }
-
-    //remove function removes the node by breaking link and attaching it to the next node 
-    private void remove(ListNode node){
-        ListNode previous = node.prev;
-        ListNode nxt = node.next;
-        previous.next = nxt;
-        nxt.prev = previous;
+        left = new ListNode(0, 0);
+        right = new ListNode(0, 0);
+        left.prev = null;
+        left.next = right;
+        right.prev = left;
+        right.next= null;
+        size = capacity;
+        lru = new HashMap<>();
     }
     
-    //insert function insert a node at the end of the linked list before right
-    private void insert(ListNode node){
-        ListNode previous = this.right.prev;
-        previous.next = node;
-        node.prev = previous;
-        node.next = this.right;
-        this.right.prev = node;
-    }
     public int get(int key) {
-        //if key exists remove the node and insert it at the end as its most recent
-        if(cache.containsKey(key)){
-            ListNode node = cache.get(key);
-            remove(node);
-            insert(node);
-            return node.val;
-       }
+        if(lru.containsKey(key)){
+            ListNode curr = lru.get(key);
+            delete(curr);
+            insert(curr);
+            return curr.value;
+        }
 
         return -1;
     }
     
     public void put(int key, int value) {
-        // if a key exists first you remove the existing value from map 
-        if(cache.containsKey(key)){
-            remove(cache.get(key));
+        if(lru.containsKey(key)){
+           ListNode node = lru.get(key);
+           delete(node);
         }
-        // insert the newly entered key-val pair 
-        ListNode node = new ListNode(key, value);
-        cache.put(key, node);
-        insert(node);
-        
-        //if the size exceeds capacity remove it from the cache and delete the key of the key, remove just breaks the link
-        if(cache.size() > capacity){
-            ListNode lru = this.left.next;
-            remove(lru);
-            cache.remove(lru.key);
+
+        ListNode newNode = new ListNode(key, value);
+        lru.put(key, newNode);
+        insert(newNode);
+
+        if(size < lru.size()){
+            ListNode curr = left.next;
+            delete(curr);
+            lru.remove(curr.key);
         }
+    }
+    
+    // break the link and insert before the lastNode
+    public void insert(ListNode node){
+        ListNode prev = right.prev;
+        prev.next = node;
+        node.prev = prev;
+        node.next = right;
+        right.prev = node;
+    }
+
+
+    public void delete(ListNode node){
+        ListNode prev = node.prev;
+        ListNode newnext = node.next;
+        prev.next = newnext;
+        newnext.prev = prev;       
     }
 }
 
