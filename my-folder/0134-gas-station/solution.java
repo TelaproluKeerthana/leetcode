@@ -1,33 +1,18 @@
 class Solution {
     public int canCompleteCircuit(int[] gas, int[] cost) {
-        int n = gas.length;
-        int[] diff = new int[n];
-        int total = 0;
+        int total = 0; 
+        int curr = 0;
+        int startPoint = 0;
+        for(int i = 0; i < gas.length; i++){
+            total += gas[i] - cost[i];
+            curr += gas[i] - cost[i];
 
-        // Step 1: Build diff and calculate total
-        for (int i = 0; i < n; i++) {
-            diff[i] = gas[i] - cost[i];
-            total += diff[i];
-        }
-
-        // Step 2: If impossible
-        if (total < 0) return -1;
-
-        // Step 3: Build prefix sums and find min prefix
-        int prefix = 0;
-        int minPrefix = Integer.MAX_VALUE;
-        int minIndex = -1;
-
-        for (int i = 0; i < n; i++) {
-            prefix += diff[i];
-            if (prefix < minPrefix) {
-                minPrefix = prefix;
-                minIndex = i;
+            if(curr < 0){
+                curr = 0;
+                startPoint = (i + 1) % (cost.length);
             }
         }
 
-        // Step 4: Answer is right after min decline
-        return (minIndex + 1) % n;
+        return total >= 0 ? startPoint : -1;
     }
 }
-
