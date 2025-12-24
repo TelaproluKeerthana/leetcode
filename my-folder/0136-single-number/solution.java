@@ -1,16 +1,15 @@
 class Solution {
     public int singleNumber(int[] nums) {
-        HashMap<Integer, Integer> hm = new HashMap<>();
-        int ans = 0;
-        for(int num: nums){
-            hm.put(num, hm.getOrDefault(num, 0) + 1);
-        }
-        for(int num: nums){
-            if(hm.get(num) == 1){
-                ans = num;
-            }
+        int ans = nums[0];
+        for(int i = 1; i < nums.length; i++){
+                ans ^= nums[i];
         }
 
-        return ans;
+       return ans;
     }
 }
+
+// : nums = [2,2,1]
+//               i 
+// ans = nums[0] = 0010 
+// ans  ^=  0010  = 0000 ^= 0001 = 0001, return this
