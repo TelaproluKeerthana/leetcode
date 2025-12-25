@@ -11,6 +11,7 @@ class Solution {
         }
 
         // prices[node] = min cost to reach node
+        
         int[] prices = new int[n];
         Arrays.fill(prices, Integer.MAX_VALUE);
         prices[src] = 0;
