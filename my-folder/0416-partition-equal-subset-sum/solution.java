@@ -1,34 +1,34 @@
 class Solution {
+    Boolean[][] dp;
     public boolean canPartition(int[] nums) {
         int totalSum = 0;
-        for(int num:nums){
+        int n = nums.length;
+        for(int num : nums){
             totalSum += num;
         }
+        dp = new Boolean[n][totalSum/2 + 1];
 
         if(totalSum % 2 != 0){
             return false;
         }
 
-        int half = totalSum / 2;
-        boolean[] dp = new boolean[half + 1];
-        dp[0] = true;
-        for(int num : nums){
-            for(int s = half; s >= num; s--){
-                dp[s] = dp[s] || dp[s - num];
-            }
+        return dfs(0, totalSum / 2, nums);
+    }
+
+    private boolean dfs(int idx, int target, int[] nums){
+        if(target < 0){
+            return false;
         }
 
-        return dp[half];
-        
+        if(idx == nums.length){
+            return target == 0;
+        }
+        if(dp[idx][target] != null){
+            return dp[idx][target];
+        }
 
+        dp[idx][target] = dfs(idx + 1, target - nums[idx], nums) || dfs(idx + 1, target, nums);  
 
+        return dp[idx][target];
     }
 }
-
-// sum = 1+5+11+5 = 22/2 = 11
-// firstHalfSum = 0;
-// secondHalfSum = 0;
-// array = [1, 5, 5, 11]
-//          l     r
-// sum = 1+2+3+5 = 11/2 
-// cantt split into 2 subsets
