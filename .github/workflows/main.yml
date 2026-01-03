@@ -2,31 +2,15 @@ name: Update Leetcode Cookies
 
 on:
   schedule:
-    - cron: "0 0 */14 * *"
-  workflow_dispatch:
-
-permissions:
-  contents: write
+    - cron: "0 0 */14 * *" # Run every 2 weeks
 
 jobs:
   update_cookies:
     runs-on: ubuntu-latest
+
     steps:
-      # Checkout YOUR repo (where cookies will be committed)
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # Checkout the ACTION repo into a subfolder
-      - name: Checkout UpdateLCCookies action
-        uses: actions/checkout@v4
-        with:
-          repository: vishrutkmr7/UpdateLCCookies
-          ref: master
-          path: .github/actions/UpdateLCCookies
-
-      # Run the action from its own directory so it finds its package.json
       - name: Update Leetcode cookies
-        uses: ./.github/actions/UpdateLCCookies
+        uses: vishrutkmr7/UpdateLCCookies@v1.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           leetcode-email: ${{ secrets.LEETCODE_EMAIL }}
