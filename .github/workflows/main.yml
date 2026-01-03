@@ -2,17 +2,20 @@ name: Update Leetcode Cookies
 
 on:
   schedule:
-    - cron: "0 0 */14 * *" # Run every 2 weeks
-  workflow_dispatch:     
+    - cron: "0 0 */14 * *"
+  workflow_dispatch:
 
 permissions:
-  contents: write      
+  contents: write
 
 jobs:
   update_cookies:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Update Leetcode cookies
         uses: vishrutkmr7/UpdateLCCookies@master
         with:
