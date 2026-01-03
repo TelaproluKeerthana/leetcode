@@ -11,13 +11,22 @@ permissions:
 jobs:
   update_cookies:
     runs-on: ubuntu-latest
-
     steps:
+      # Checkout YOUR repo (where cookies will be committed)
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Checkout the ACTION repo into a subfolder
+      - name: Checkout UpdateLCCookies action
+        uses: actions/checkout@v4
+        with:
+          repository: vishrutkmr7/UpdateLCCookies
+          ref: master
+          path: .github/actions/UpdateLCCookies
+
+      # Run the action from its own directory so it finds its package.json
       - name: Update Leetcode cookies
-        uses: vishrutkmr7/UpdateLCCookies@master
+        uses: ./.github/actions/UpdateLCCookies
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           leetcode-email: ${{ secrets.LEETCODE_EMAIL }}
