@@ -21,9 +21,6 @@ class Solution {
                 hm.put(curr, hm.get(curr) - 1);
                 if(hm.get(curr) == 0){
                     hm.remove(curr);
-                    if(pq.peek() != curr){
-                        return false;
-                    }
                     pq.poll();
                 }
             }
