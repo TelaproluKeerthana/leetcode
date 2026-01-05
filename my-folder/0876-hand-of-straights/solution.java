@@ -8,24 +8,20 @@ class Solution {
             hm.put(val, hm.getOrDefault(val, 0) + 1);
         }
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>(hm.keySet());
-
-        while(!pq.isEmpty()){
-            int start = pq.peek();
-            for(int i = 0; i < groupSize; i++){
-                int curr = start + i;
-                if(!hm.containsKey(curr)){
-                    return false;
+        for(int val : hand){
+            int start = val;
+            // when there are elements smaller than the start in the hm
+            while(hm.getOrDefault(start - 1, 0) > 0) start--;
+            while(start <= val){
+                while(hm.getOrDefault(start, 0) > 0){
+                    for(int i = start; i < start + groupSize; i++){
+                        if(hm.getOrDefault(i, 0) == 0) return false;
+                        hm.put(i, hm.get(i) - 1);
+                    }
                 }
-
-                hm.put(curr, hm.get(curr) - 1);
-                if(hm.get(curr) == 0){
-                    hm.remove(curr);
-                    pq.poll();
-                }
+                start++;
             }
-        }
-
+        } 
         return true; 
     }
 }
