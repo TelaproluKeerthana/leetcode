@@ -18,6 +18,7 @@ class Solution {
 
         StringBuilder sb = new StringBuilder();
         for(int num : res){
+            //skip leading zeros and  start adding sb when you see the first non zero digit
             if(!(sb.length() == 0 && num == 0)){
                 sb.append(num); 
             }
@@ -25,4 +26,12 @@ class Solution {
 
         return sb.toString();
     }
-}
+} 
+//       0,1,2,3,4,5
+// res = [0,0,1,3,6,8]  after 3*456
+// res = [0,1,0,4,8,8]  23 * 456
+// res = [0,5,6,0,8,8]  after 123 * 456 remove leading 0 and return the string 
+//   i 
+//  123
+// 456x
+
