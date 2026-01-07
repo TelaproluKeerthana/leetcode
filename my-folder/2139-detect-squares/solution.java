@@ -28,14 +28,19 @@ class DetectSquares {
             if(y2 == y) continue;
 
             int side = y2 - y;
-            // checking squares on the right side of the point
-            res += (sameX.get(y2) * map.getOrDefault(x + side, Map.of()).getOrDefault(y, 0) *
-                    map.getOrDefault(x + side, Map.of()).getOrDefault(y2, 0));
+            int first = sameX.get(y2);
 
-            // checking square on the left side of the point
-            res += sameX.get(y2)
-                 * map.getOrDefault(x - side, Map.of()).getOrDefault(y, 0)
-                 * map.getOrDefault(x - side, Map.of()).getOrDefault(y2, 0);
+            // checking squares on the right side  and left side of the point
+            for(int xs : new int[]{x + side, x - side}){
+               if(!map.containsKey(xs)) continue;
+
+               Map<Integer, Integer> nextRow = map.get(xs);
+               int second =  nextRow.getOrDefault(y, 0);
+               int third = nextRow.getOrDefault(y2, 0);
+
+               res += first * second * third;
+            }
+           
         }
 
         return res;
