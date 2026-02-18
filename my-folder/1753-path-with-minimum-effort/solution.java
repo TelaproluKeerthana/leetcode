@@ -37,3 +37,21 @@ public class Solution {
         return 0;
     }
 }
+
+// heights = [[1,2,2],[3,8,2],[5,3,5]]
+
+// minBestEffort
+// [0 1 1]
+// [2 5 1]
+// [2 2 2]
+
+// build pq based on the 
+// pq = [[dist, row, col]] 0 0 0(pop); 1 0 1(pop); 2 1 0; 6 1 1; 0 0 2; 
+// 002(pop); 210; 611; 012;
+// 012(pop); 210; 611; 322
+// 210(pop); 322; 611; 511; 220
+// 220; 322; 511; 611; 221
+// 221; 322; 511; 611; 222
+// 222(return 2)
+
+// here we are updating the minimum effort when we encounter a way to reach that cell with less effort and from there we are trying to see if we can reach to the n-1,n-1 cell and when we reach it we are return the value when we reach it.
