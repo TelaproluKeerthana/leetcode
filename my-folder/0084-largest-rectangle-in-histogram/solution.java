@@ -23,3 +23,20 @@ class Solution {
         return maxArea;
     }
 }
+// ma =  2, 6, 10
+
+// stack = [[2, 0]pop,[0, 1], [2, 5]pop, [3, 6]pop, [4, 2], [5,3]]
+// maxArea = 2 * (1 - 0)
+// top = [3, 6]
+// maxArea = 6 * (4 - 3) = 6 
+// top = [2, 5]
+// maxArea = 5 * (4 - 2) = 10
+// stk =[[0, 1], [4,2], [5,3]]
+// while (!stack.isEmpty())
+// 1 * (6 - 0) = 6
+// 2  * (4 - 6) = 4
+// 3 * (6 - 5) = 3
+// returns 10 at the end
+
+// [2 1 5 6 2 3]
+//  i
