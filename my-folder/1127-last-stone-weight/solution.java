@@ -1,26 +1,29 @@
 class Solution {
     public int lastStoneWeight(int[] stones) {
-        if (stones.length == 0) {
-            return 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
+        for(int stone : stones){
+            pq.offer(stone);
         }
-        if (stones.length == 1) {
-            return stones[0];
-        }
-        
-        PriorityQueue<Integer> weights = new PriorityQueue<>(Collections.reverseOrder());
-        for (int stone : stones) {
-            weights.add(stone);
-        }
-        
-        while (weights.size() > 1) {
-            int first = weights.poll();
-            int second = weights.poll();
-            if (first != second) {
-                weights.add(first - second); // since first > second in max-heap, no need for abs
+
+        while(pq.size() > 1){
+            int first = pq.poll();
+            int second = pq.poll();
+            if(first == second){
+                continue;
             }
+            pq.offer(first - second);
         }
-        
-        return weights.isEmpty() ? 0 : weights.peek();
+
+        return pq.size() == 1 ? pq.poll() : 0;
     }
 }
 
+// [2,7,4,1,8,1] = [2, 4, 1, 1, 1] 
+// f = 7
+// s = 8
+// (8  - 7 ) = 1
+// (2, 4) = 2
+// 1112
+// (12) = 1
+// 111
+// (11) = 1
