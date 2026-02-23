@@ -1,11 +1,10 @@
 class MyQueue {
-
-    private Stack<Integer> stack1; 
-    private Stack<Integer> stack2;
+    Stack<Integer> stack1;
+    Stack<Integer> stack2;
 
     public MyQueue() {
-        stack1 = new Stack<>();
-        stack2 = new Stack<>(); 
+       stack1 = new Stack<>();
+       stack2 = new Stack<>(); 
     }
     
     public void push(int x) {
@@ -13,31 +12,33 @@ class MyQueue {
     }
     
     public int pop() {
-         if (stack2.isEmpty()) {
-            transferInputToOutput();
+        if(stack2.isEmpty()){
+            transferStacks();   
         }
         return stack2.pop();
     }
     
     public int peek() {
-        if (stack2.isEmpty()) {
-            transferInputToOutput();
+        if(stack2.isEmpty()){
+            transferStacks();   
         }
-
         return stack2.peek();
     }
     
     public boolean empty() {
-
-        return stack1.isEmpty() && stack2.isEmpty();
+       return  stack1.isEmpty() && stack2.isEmpty();
     }
 
-    private void transferInputToOutput() {
-        while (!stack1.isEmpty()) {
+    public void transferStacks(){
+        while(!stack1.isEmpty()){
             stack2.push(stack1.pop());
         }
     }
 }
+
+// [1 2]
+//  [2 1]
+
 
 /**
  * Your MyQueue object will be instantiated and called as such:
