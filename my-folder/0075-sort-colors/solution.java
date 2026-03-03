@@ -22,16 +22,16 @@ class Solution {
 
     }
 }
+// key takeaway is we're ideally creating three partitions and assigning elements into elements the curr element decides if it belongs to left partition(1's) or the right partition(2's) and assign element to that partition..
+
 
 // l = 0
 // r = 6
 
-// [2,0,2,1,1,0]
-//  l         r
-
-// [0 0 1 1 2 2]
-//      l    
-//        r
+// [0,0,1,1,2,2]
+         // c
+//  l       r
+        // loop breaks
            
 // swap 2 0
 
