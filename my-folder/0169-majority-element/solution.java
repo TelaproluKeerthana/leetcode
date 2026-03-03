@@ -1,23 +1,23 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        Map<Integer, Integer> counter = new HashMap<>();
-        for(int num:nums){
-            if(counter.containsKey(num)){
-                counter.computeIfPresent(num, (k, v) -> v + 1);
+        int majorityElement = 0;
+        int cnt = 0;
+        for(int num : nums){
+            if(cnt == 0){
+                majorityElement = num;
+            }
+
+            if(majorityElement == num){
+                cnt++;
             }
             else{
-                counter.put(num, 1);
+                cnt--;
             }
+            
         }
 
-        int length = nums.length / 2;
-        int majorityElement = 0;
-        for(Map.Entry<Integer, Integer> entry : counter.entrySet()){
-            if ( entry.getValue() > length){
-                majorityElement = entry.getKey();
-                break;
-            }
-        }
         return majorityElement;
     }
 }
+
+// 3 == n
