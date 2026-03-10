@@ -4,27 +4,21 @@ class Solution {
         List<int[]> result = new ArrayList<>();
 
         for(int[] curr : intervals){
-            if(result.size() != 0){
-                int[] last = result.get(result.size() - 1);
-                if(last[1] >= curr[0]){
-                    result.remove(result.size() - 1);
-                    result.add(new int[]{Math.min(last[0], curr[0]), Math.max(last[1], curr[1])});             
-                }
-                else{
-                    result.add(curr);
-                }
-            }
-            else{
+            if(result.isEmpty() || result.get(result.size() - 1)[1] < curr[0]){
                 result.add(curr);
             }
+            else{
+               int[] last = result.get(result.size() - 1);
+               last[1] = Math.max(last[1], curr[1]);
+            }
         }
 
-        int[][] res = new int[result.size()][2];
-        for(int i = 0; i < res.length; i++){
-            res[i] = result.get(i);
-        }
+        // int[][] res = new int[result.size()][2];
+        // for(int i = 0; i < res.length; i++){
+        //     res[i] = result.get(i);
+        // }
 
-        return res;
+        return result.toArray(new int[result.size()][]);
     }
 }
 
