@@ -1,29 +1,35 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
-        // sort based on the first element 
-        List<int[]> resList = new ArrayList<>();
-        
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        List<int[]> result = new ArrayList<>();
 
-        int[] prev = intervals[0];
-        for(int i = 1; i < intervals.length; i++){
-            if(prev[1] >= intervals[i][0]){
-                prev[1] = Math.max(prev[1], intervals[i][1]);
+        for(int[] curr : intervals){
+            if(result.size() != 0){
+                int[] last = result.get(result.size() - 1);
+                if(last[1] >= curr[0]){
+                    result.remove(result.size() - 1);
+                    result.add(new int[]{Math.min(last[0], curr[0]), Math.max(last[1], curr[1])});             
+                }
+                else{
+                    result.add(curr);
+                }
             }
             else{
-                resList.add(prev);
-                prev = intervals[i];
+                result.add(curr);
             }
         }
-        resList.add(prev);
 
-        
-        return resList.toArray(new int[resList.size()][2]);
+        int[][] res = new int[result.size()][2];
+        for(int i = 0; i < res.length; i++){
+            res[i] = result.get(i);
+        }
+
+        return res;
     }
 }
-// res= [[1, 6]]
-// [1, 3] [2, 6], [8, 10], [15, 18]
-//                          i  
-   
-// start = min(1, 2)
-// end = max(3, 6)
+
+// [[1,3],[2,6],[8,10],[15,18]]
+//                       i
+// res = [1,6][8,10][15, 18] -> return it
+// [1, 3] - [2, 6]
+// min(start1, start2), max(end1, end2) and store in result
