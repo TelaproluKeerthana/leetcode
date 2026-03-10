@@ -1,34 +1,34 @@
 class Solution {
     public int rob(int[] nums) {
-        if(nums.length == 2){
-            return Math.max(nums[0], nums[1]);
-        }
-        else if(nums.length == 1){
+        if(nums.length == 1){
             return nums[0];
         }
+        if(nums.length == 2) return Math.max(nums[0], nums[1]);
 
-        int prevRob = nums[0];
-        int currRob = Math.max(nums[0], nums[1]);
-        for(int i = 2; i < nums.length; i++){
-            int temp = currRob;
-            currRob = Math.max(currRob, prevRob + nums[i]);
-            prevRob = temp;
+        int prev = 0;
+        int curr = 0;
+        for(int num : nums){
+            int temp = curr;
+            curr = Math.max(curr, prev + num);
+            prev = temp;
         }
 
-        return currRob;
+        return curr;
     }
 }
+      
+// nums = [1, 2, 3, 1]
+//               i
 
-// [1,2,3,1]
-//  1 + 3 
-//  2 + 1
-// max(3, 4)
-// return 4
+// maxprofit = 4
+// curr = prev + i = 3
+// prev = curr = 
 
-// ----------
-// e2 - 2,7,9,3,1
-//          i
+// nums = [2, 7, 9, 3, 1]
+//               i 
 
-// currrob  = 12
+// maxProfit = max(11, 7) = 12
+// curr = 2 + 9(11) = 7 + 3(10) = 11 + 1(12)
 // prev = 10
-// max(10, 12) return 12
+
+
