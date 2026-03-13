@@ -3,38 +3,40 @@ class Solution {
         List<List<Integer>> adjList = new ArrayList<>();
         int[] indegree = new int[numCourses];
 
-        for (int i = 0; i < numCourses; i++) {
-            adjList.add(new ArrayList<>());
+        for(int i = 0; i < numCourses; i++){
+            adjList.add(new ArrayList<Integer>());
+        }   
+
+        for(int[] prereq : prerequisites){
+            int crs = prereq[0];
+            int pre = prereq[1];
+            indegree[crs]++;
+            adjList.get(pre).add(crs);
         }
 
-        for (int[] pre : prerequisites) {
-            int course = pre[0];
-            int prereq = pre[1];
-
-            adjList.get(prereq).add(course); 
-            indegree[course]++;
-        }
-
-        Queue<Integer> que = new LinkedList<>();
-        for (int c = 0; c < numCourses; c++) {
-            if (indegree[c] == 0) {
-                que.offer(c);
+        int finish = 0;
+        Queue<Integer> completed = new LinkedList<>();
+        for(int i = 0; i < numCourses; i++){
+            if(indegree[i] == 0){
+                completed.offer(i);
             }
         }
 
-        int count = 0;
-        while (!que.isEmpty()) {
-            int curr = que.poll();
-            count++;
-
-            for (int next : adjList.get(curr)) {
-                indegree[next]--;
-                if (indegree[next] == 0) {
-                    que.offer(next);
+        while(!completed.isEmpty()){
+            int curr = completed.poll();
+            finish++;
+            for(int nei : adjList.get(curr)){
+                indegree[nei]--;
+                if(indegree[nei] == 0){
+                    completed.offer(nei);
                 }
             }
         }
 
-        return count == numCourses;
+        return finish == numCourses;
     }
 }
+
+
+
+
