@@ -1,27 +1,26 @@
 class Solution {
     public boolean isValid(String s) {
-        if (s.length() == 1) return false;
+        Stack<Character> stack = new Stack<>();
+        Map<Character, Character> hmap = new HashMap<>();
+        hmap.put(')', '(');
+        hmap.put('}', '{');
+        hmap.put(']', '[');
 
-        Map<Character, Character> pairs = Map.of(
-            ')', '(', 
-            ']', '[', 
-            '}', '{'
-        );
 
-        Deque<Character> stack = new ArrayDeque<>();
-
-        for (char ch : s.toCharArray()) {
-            if (pairs.containsKey(ch)) {
-                if (stack.isEmpty() || stack.peek() != pairs.get(ch)) {
+        for(char curr : s.toCharArray()){
+            if(curr == '(' || curr == '{' || curr == '['){
+                stack.add(curr);
+            }
+            else{
+                if(stack.isEmpty() || stack.peek() != hmap.get(curr)){
                     return false;
                 }
-                stack.pop();
-            } else {
-                stack.push(ch);
+                else{
+                    stack.pop();
+                } 
             }
         }
 
-        return stack.isEmpty();
+        return stack.isEmpty() ? true : false;
     }
 }
-
