@@ -10,55 +10,26 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        
+     // use a priority Queue to get the smaller value from all the lists add it to the result list and return 
         PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
         for(ListNode list : lists){
-            if(list != null) pq.offer(list);
-        }
+            if(list != null){
+                pq.offer(list);
+            }
+        }   
 
         ListNode dummy = new ListNode(0);
         ListNode tail = dummy;
 
         while(!pq.isEmpty()){
-            ListNode node = pq.poll();
-            tail.next = node;
+            ListNode curr = pq.poll();
+            tail.next = curr;
             tail = tail.next;
-            if(node.next != null){
-                pq.offer(node.next);
+            if(curr.next != null){
+                pq.offer(curr.next);
             }
         }
 
         return dummy.next;
     }
 }
-
-// if(curr.val > currhead.val){
-                //     prev.next = currhead;
-                //     currhead = currhead.next;
-                //     currhead.next = curr;
-                //     ListNode prev = curr;
-                //     curr = curr.next;    
-                // }
-                // // when both are equal
-                // else if(curr.val == currhead.val){
-                //  ListNode nxtPtr = curr.next;
-                //  curr.next = currhead;
-                //  currhead = currhead.next;
-                //  currhead.next = nxtPtr;
-                // }
-                // // when the curr is small
-                // else{
-                //     curr = curr.next;
-                // }
-
-// resLis = 0
-// reslist.next = 1 
-// reslist.next.next = 4
-// reslist.next.next.next = 5
-//       list2  
-//                          i
-// [1, 4, 5], [1, 3, 4],[2, 6]
-// currHead = 1 -> 4 -> 5
-//                                             curr
-//            1 -> 1 -> 2 -> 3 -> 4 -> 4 -> 5 -> 6
-        //    return res list head
