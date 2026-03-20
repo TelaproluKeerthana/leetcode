@@ -1,33 +1,28 @@
+import java.util.*;
+
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
-        int n = nums.length;
-        int[] output = new int[n - k + 1];
-        Deque<Integer> q = new LinkedList<>();
-        int l = 0, r = 0;
-        
-        // you're building a monotonically decreasing queue of indices, such that you have the smallest at end and max at beginning 
-        while(r < n){
-            // when current element is greater than the last element. remove all elements until the statement is false
-            while(!q.isEmpty() && nums[q.getLast()] < nums[r]){
-                q.removeLast();
-            }
-            // then keep the current indices at the right position
-            q.addLast(r);
+        Deque<Integer> dq = new ArrayDeque<>();
+        int[] res = new int[nums.length - k + 1];
+        int idx = 0;
 
-            //when the current max is not within curr window range, remove it
-            if(l > q.getFirst()){
-                q.removeFirst();
+        for (int r = 0; r < nums.length; r++) {
+            // if there are any elements that are not needed within the window range- remove it
+            if(!dq.isEmpty() && dq.peekFirst() < r - k + 1){
+                dq.pollFirst();
             }
 
-            //when curr r is greater than the window size, pick the current max for that window
-            if((r + 1) >= k){
-                output[l] = nums[q.getFirst()];
-                l++;
+            while(!dq.isEmpty() && nums[dq.peekLast()] < nums[r]){
+                dq.pollLast();
             }
 
-            r++;
+            dq.offerLast(r);
+
+            if(r >= k - 1){
+                res[idx++] = nums[dq.peekFirst()];
+            }
         }
 
-        return output;
+        return res;
     }
 }
