@@ -1,19 +1,17 @@
 class Solution {
     public int subarraySum(int[] nums, int k) {
-        Map<Integer, Integer> map = new HashMap<>();
-        // if the diff is 0 meaning we found a valid subarray 
-        map.put(0, 1);
+    Map<Integer, Integer> hm = new HashMap<>();
+    hm.put(0, 1);
+    int currSum = 0;
+    int res = 0;
+    for(int num : nums){
+        currSum += num;
+        int diff = currSum - k;
+        res += hm.getOrDefault(diff, 0);
+        hm.put(currSum, hm.getOrDefault(currSum, 0) + 1);
+    }
 
-        int currSum = 0;
-        int res = 0;
-        for(int num  : nums){
-            currSum += num;
-            int diff = currSum - k;
-            res += map.getOrDefault(diff, 0);
-            map.put(currSum, map.getOrDefault(currSum, 0) + 1);
-        }
-
-        return res;
+    return res;
     }
 }
 // hm = {0 : 1, 1 : 1, 2 : 1}
