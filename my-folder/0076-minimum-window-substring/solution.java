@@ -1,48 +1,55 @@
 class Solution {
     public String minWindow(String s, String t) {
-        int[] tMap = new int[128];
-        int need = 0;
-        
-        for (char c : t.toCharArray()) {
-            if (tMap[c] == 0) need++; 
-            tMap[c]++;
+        Map<Character, Integer>  tMap = new HashMap<>();
+        for(char c : t.toCharArray()){
+            tMap.put(c, tMap.getOrDefault(c, 0) + 1);
         }
-
-        int[] sMap = new int[128];
+        
+        Map<Character, Integer>  sMap = new HashMap<>();
+        int need = tMap.size();
+        int startPtr = 0;
+        int l = 0;
+        int maxLen = Integer.MAX_VALUE;
         int have = 0;
-
-        int left = 0;
-        int minLen = Integer.MAX_VALUE;
-        int start = 0;
-
-        for (int right = 0; right < s.length(); right++) {
-            char c = s.charAt(right);
-            sMap[c]++;
-
-            if (tMap[c] > 0 && sMap[c] == tMap[c]) {
+        for(int r = 0; r < s.length(); r++){
+            char c = s.charAt(r);
+            sMap.put(c, sMap.getOrDefault(c, 0) + 1);
+            if(tMap.containsKey(c) && tMap.get(c).equals(sMap.get(c))){
                 have++;
             }
 
-            while (have == need) {
-                if (right - left + 1 < minLen) {
-                    minLen = right - left + 1;
-                    start = left;
+            while(need == have){
+                if(maxLen > r - l + 1){
+                    maxLen = r - l + 1;
+                    startPtr = l;
                 }
 
-                char lc = s.charAt(left);
-                sMap[lc]--;
-
-                if (tMap[lc] > 0 && sMap[lc] < tMap[lc]) {
+                char lchar = s.charAt(l);
+                sMap.put(lchar, sMap.getOrDefault(lchar, 0) - 1);
+                if (tMap.containsKey(lchar) &&
+                    sMap.get(lchar) < tMap.get(lchar)) {
                     have--;
                 }
 
-                left++;
+                l++;
             }
         }
-
-        return (minLen == Integer.MAX_VALUE)
-                ? ""
-                : s.substring(start, start + minLen);
+         return maxLen == Integer.MAX_VALUE
+            ? ""
+            : s.substring(startPtr, startPtr + maxLen);
     }
 }
 
+// s = "ADOBECODEBANC", t = "ABC"
+// start extending the window until the point we have all the elements with in t in s
+// then start shrinking the window to see if we have all the elements within in t in s
+// 
+
+// s = "ADOBECODEBANC"
+//      l
+//           r
+
+// A : 1
+// B : 1
+// C : 1
+// maxlen = 6 stptr = 0 endptr = 5
