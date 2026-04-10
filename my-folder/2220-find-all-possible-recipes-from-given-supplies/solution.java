@@ -1,39 +1,41 @@
 class Solution {
     public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
-        HashSet<String> supply = new HashSet<>();
-        for (String sup : supplies) {
-            supply.add(sup);
+        Map<String, List<String>> IngredientToRecipes = new HashMap<>();
+
+        Map<String, Integer> indegree = new HashMap<>();
+
+        for(int i = 0; i < recipes.length; i++){
+            String curr = recipes[i];
+            indegree.put(curr, ingredients.get(i).size());
         }
 
-        List<String> availableRecipes = new ArrayList<>();
-        boolean added = true;
+        for(int i = 0; i < recipes.length; i++){
+            for(String ing : ingredients.get(i)){
+                IngredientToRecipes.computeIfAbsent(ing, k -> new ArrayList<>()).add(recipes[i]);
+            }
+        }
+        List<String> result = new ArrayList<>();
+        
+        Queue<String> que = new LinkedList<>();
+        for(String sup : supplies){
+            que.offer(sup);
+        }
+        
+        while(!que.isEmpty()){
+            String curr = que.poll();
+            if(!IngredientToRecipes.containsKey(curr)) continue;
 
-        while (added) {
-            added = false;
+            for(String recipe : IngredientToRecipes.get(curr)){
+                indegree.put(recipe, indegree.get(recipe) - 1);
 
-            for (int i = 0; i < recipes.length; i++) {
-                String curr = recipes[i];
-
-                // skip if already added
-                if (supply.contains(curr)) continue;
-
-                boolean canMake = true;
-
-                for (String ing : ingredients.get(i)) {
-                    if (!supply.contains(ing)) {
-                        canMake = false;
-                        break; // small optimization
-                    }
-                }
-
-                if (canMake) {
-                    supply.add(curr);          // 🔥 key fix
-                    availableRecipes.add(curr);
-                    added = true;
+                if(indegree.get(recipe) == 0){
+                    que.offer(recipe);
+                    result.add(recipe);
                 }
             }
         }
 
-        return availableRecipes;
+        return result;
+
     }
 }
