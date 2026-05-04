@@ -1,26 +1,35 @@
 class Solution {
     public void rotate(int[][] matrix) {
-        int left = 0;
-        int right = matrix.length - 1;
+        int top = 0;
+        int bot = matrix.length - 1;
 
-        while(left < right){
-            for(int i = 0; i < right - left; i++){
-                int top = left,bot = right;
+
+        while(top < bot){
+            for(int i = 0; i < bot - top; i++){
+                int left = top; 
+                int right = bot;
                 int first = matrix[top][left + i];
                 matrix[top][left + i] = matrix[bot - i][left];
                 matrix[bot - i][left] = matrix[bot][right - i];
-                matrix[bot][right - i] = matrix[top +  i][right];
+                matrix[bot][right - i] = matrix[top + i][right];
                 matrix[top + i][right] = first;
             }
-            left++;
-            right--;
-            
+            top++;
+            bot--;
         }
     }
 }
 
 
-// 1 2 3
-// 4 5 6
-// 7 8 9
+// 123 
+// 456
+// 789
+// ----
+
+// 00 copy this 
+// update 00 with 20 
+// 20 with 22 
+// 22 with 02
+
+
 
