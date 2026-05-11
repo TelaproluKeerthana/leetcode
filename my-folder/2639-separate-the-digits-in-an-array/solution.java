@@ -1,18 +1,21 @@
 class Solution {
     public int[] separateDigits(int[] nums) {
         List<Integer> arr = new ArrayList<>();
-        for(int i = nums.length - 1; i >= 0; i--){
+        for(int i = 0; i < nums.length; i++){
             int curr = nums[i];
-            while(curr >= 10){
-                int last = curr % 10;
-                arr.add(last);
-                curr = curr / 10;
+            int divisor = 1;
+            while(curr / divisor >= 10){
+                divisor *= 10;
             }
-            arr.add(curr);
+
+            while(divisor > 0){
+                arr.add(curr / divisor);
+                curr = curr % divisor;
+                divisor /= 10;
+            }
         }
-        Collections.reverse(arr);
-        int[] res = arr.stream().mapToInt(Integer::intValue).toArray();
-        return res;
+        
+        return arr.stream().mapToInt(Integer::intValue).toArray();
     }
 }
 
