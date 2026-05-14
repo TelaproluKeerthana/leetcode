@@ -1,20 +1,24 @@
 class Solution {
-    public boolean isGood(int[] nums) {
-        Arrays.sort(nums);
-       
-        int maxi = nums[nums.length - 1];
-        int n = nums.length;
-        if(n < maxi + 1){
-            return false;
+    public boolean isGood(int[] nums) { 
+
+        int maxi = 0;
+        for(int num : nums){
+            if(num > maxi){
+                maxi = num;
+            }
         }
 
-        for(int i = 0; i < n - 1; i++){
-            if(nums[i] != i + 1){
+        int[] freq = new int[201];
+        for(int num : nums){
+            freq[num]++;
+        }
+
+        for(int i = 1; i < maxi ; i++){
+            if(freq[i] != 1){
                 return false;
             }
         }
 
-
-        return true;
+        return freq[maxi] == 2;   
     }
 }
