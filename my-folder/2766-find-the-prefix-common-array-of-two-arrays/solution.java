@@ -1,29 +1,22 @@
 class Solution {
     public int[] findThePrefixCommonArray(int[] A, int[] B) {
-        int[] res = new int[A.length];
+        int len = A.length;
+        int[] res = new int[len];
+        int[] pre = new int[len + 1];
         
-        Set<Integer> aSet = new HashSet<>();
-        Set<Integer> bSet = new HashSet<>();
-
+        int common = 0;
         for(int i = 0; i < A.length; i++){
-            res[i] = i == 0 ? 0 : res[i - 1];
+            pre[A[i]]++;
             
-            if(A[i] == B[i]){
-                res[i]++;
+            if(pre[A[i]] == 2){
+                common++;
             }
-
-            else{
-                if(aSet.contains(B[i])){
-                    res[i]++;
-                }
-                if(bSet.contains(A[i])){
-                    res[i]++;
-                }
+            pre[B[i]]++;
+            if(pre[B[i]] == 2){
+                common++;
             }
-
-            aSet.add(A[i]);
-            bSet.add(B[i]);   
-        }
+            res[i] = common;   
+        } 
 
         return res;
     }
