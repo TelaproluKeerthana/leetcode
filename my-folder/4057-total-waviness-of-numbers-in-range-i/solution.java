@@ -1,26 +1,26 @@
 class Solution {
     public int totalWaviness(int num1, int num2) {
-        if(num2 < 100){
-            return 0;
+        int ans = 0;
+        for (int x = num1; x <= num2; x++) {
+            ans += countWaviness(x);
         }
 
-        int waviness = 0;
-        for(int i = num1; i <= num2; i++){
-            int curr = i;
-
-            // char[] arr = Integer.toString(curr).toCharArray();
-            int[] arr = Integer.toString(curr).chars().map(c -> c - '0').toArray();
-
-            for(int j = 1; j < arr.length - 1; j++){
-                if(arr[j - 1] < arr[j] && arr[j] > arr[j + 1] ){
-                    waviness += 1;
-                }  
-                else if(arr[j - 1] > arr[j] && arr[j] < arr[j + 1]){
-                    waviness += 1;
-                }
-            }
-
-        }
-        return waviness;
+        return ans;
     }
+
+    private int countWaviness(int num){
+        String s = String.valueOf(num);
+        int ans = 0;
+        for(int i = 1; i < s.length() - 1; i++){
+            int prev = s.charAt(i - 1) - '0';
+            int next = s.charAt(i + 1) - '0';
+
+            int curr = s.charAt(i) - '0';
+            if((curr > prev && curr > next) ||(curr < prev && curr  < next)){
+                ans++;
+            }
+        }
+        return ans;
+    }
+    
 }
