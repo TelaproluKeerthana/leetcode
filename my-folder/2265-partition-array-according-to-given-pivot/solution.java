@@ -1,50 +1,28 @@
 class Solution {
     public int[] pivotArray(int[] nums, int pivot) {
-        List<Integer> smaller = new ArrayList<>();
-        List<Integer> larger = new ArrayList<>();
-        int totalPivots = 0;
+        int n = nums.length;
+        int left = 0; 
+        int right = n- 1;
 
-        for(int num : nums){
-            if(num < pivot){
-                smaller.add(num);
-            }
-            else if(num > pivot){
-                larger.add(num);
-            }
-            else{
-                totalPivots++;
-            }
-        }
-        int i = 0;
-        while(i < nums.length){
+        int start = 0;
+        int end = n - 1;
+        int[] res = new int[n];
 
-            while(smaller.size() > 0){
-                nums[i] = smaller.get(0);
-                smaller.remove(0);
-                i++;
+        while(left < n && right >= 0){
+            if(nums[left] < pivot){
+                res[start++] = nums[left];
             }
-
-            while(totalPivots > 0){
-                nums[i] = pivot;
-                totalPivots--;
-                i++;
+            if(nums[right] > pivot){
+                res[end--] = nums[right];
             }
-
-            while(larger.size() > 0){
-                nums[i] = larger.get(0);
-                larger.remove(0);
-                i++;
-            }
+            left++;
+            right--;
         }
 
-        return nums;
+        for(int i = start; i <= end; i++){
+            res[i] = pivot;
+        }
+
+        return res;
     }
 }
-
-// [9,12,5,10,14,3,10]
-
-// total pivot elements++ = 2
-// nums greater = [12, 14]
-// nums smaller = [9, 5, 3]
-
-// res[] = nums smaller + total pivot elements + nums larger
